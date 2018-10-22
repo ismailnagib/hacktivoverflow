@@ -1,0 +1,750 @@
+.placeholder {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: default;
+  color: transparent;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+html {
+  width: 100%;
+  margin: 0px;
+  padding: 0px;
+  overflow-x: hidden;
+}
+
+body {
+  width: 100%;
+  margin: 0px;
+  padding: 0px;
+  overflow-x: hidden;
+}
+
+#app {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+}
+
+#nav {
+  padding: 30px;
+  background: white;
+  position: absolute;
+  width: 99vw;
+  height: 100vh;
+  margin-top: -100vh;
+  z-index: 9000;
+}
+#nav a {
+  text-decoration: none;
+  font-weight: bold;
+  color: #42b983;
+  font-size: 50px;
+  font-family: "Roboto", sans-serif;
+}
+
+#navlinks {
+  position: absolute;
+  margin-top: 27.5vh;
+  width: 100%;
+}
+
+#signinit {
+  font-family: "Roboto", sans-serif;
+}
+
+#signBackdrop {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 10000;
+}
+
+#signModal {
+  position: fixed;
+  width: 20%;
+  top: 25%;
+  left: 40%;
+  background-color: #42b983;
+  z-index: 11000;
+  border-radius: 50px;
+}
+#signModal input {
+  border: none;
+  margin: 1vh 0;
+  width: 80%;
+  font-size: 20px;
+  padding: 10px 20px;
+  font-family: "Roboto", sans-serif;
+  text-align: center;
+}
+#signModal input:focus {
+  outline: none;
+}
+
+#signBtn {
+  margin-top: 3vh;
+  color: white;
+  font-size: 30px;
+  font-family: "Roboto", sans-serif;
+}
+#signBtn button {
+  background: transparent;
+  color: white;
+  border: none;
+  cursor: pointer;
+  padding: 0px 20px;
+  margin: 0px 10px;
+}
+#signBtn button:focus {
+  outline: none;
+}
+#signBtn button.active {
+  border-bottom: 3px solid white;
+}
+
+.signModalBtn {
+  background: transparent;
+  border: none;
+  margin-top: 1vh;
+  font-size: 20px;
+  cursor: pointer;
+}
+.signModalBtn:focus {
+  outline: none;
+}
+
+#phInput {
+  cursor: default;
+  background: transparent;
+}
+
+#notice {
+  color: white;
+  font-family: "Roboto", sans-serif;
+}
+
+#main {
+  margin: 105vh 0 0 0;
+  width: 99vw;
+  height: 95vh;
+  overflow: hidden;
+}
+
+a {
+  color: black;
+  font-family: "Roboto", sans-serif;
+  font-weight: 700;
+}
+a:hover {
+  color: #42b983;
+  text-decoration: none;
+}
+
+#menuLink a {
+  font-size: 30px;
+  letter-spacing: 5px;
+  font-family: "Roboto", sans-serif;
+  font-weight: normal;
+  height: 45px;
+}
+#menuLink div {
+  font-size: 30px;
+  letter-spacing: 5px;
+  font-family: "Roboto", sans-serif;
+  font-weight: normal;
+  height: 45px;
+}
+#menuLink button {
+  font-size: 30px;
+  letter-spacing: 5px;
+  font-family: "Roboto", sans-serif;
+  font-weight: normal;
+  height: 45px;
+  background-color: transparent;
+  border: none;
+  color: gray;
+  cursor: pointer;
+}
+#menuLink button:hover {
+  color: #42b983;
+}
+#menuLink button:focus {
+  outline: none;
+}
+#menuLink button[disabled] {
+  color: lightgray;
+  cursor: default;
+}
+
+#questionlist {
+  height: 95vh;
+  overflow: scroll;
+}
+
+#questionlarge {
+  height: 95vh;
+  overflow: scroll;
+}
+#questionlarge a:hover .img-overlay {
+  opacity: 0.5;
+}
+
+.img-overlay {
+  height: 250px;
+  margin-top: -250px;
+  opacity: 0;
+  transition: 0.5s ease;
+  background-color: #42b983;
+}
+.img-overlay:hover {
+  opacity: 0.5;
+}
+
+.card-body {
+  font-family: "Roboto", sans-serif;
+}
+
+.card-title {
+  font-weight: 700;
+}
+
+.card-text {
+  font-weight: 400;
+  text-align: justify;
+}
+
+#addBtn {
+  border: transparent;
+  height: 50px;
+  width: 100%;
+  font-size: 20px;
+  padding: 15px 20px;
+  margin-bottom: 30px;
+  border-radius: 25px;
+  background: #42b983;
+  color: white;
+  cursor: pointer;
+  font-family: "Roboto", sans-serif;
+}
+#addBtn:hover {
+  background: white;
+  color: #42b983;
+  border: 3px solid #42b983;
+  padding: 12px 17px;
+}
+#addBtn:focus {
+  outline: none;
+}
+
+#listBackdrop {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 10000;
+}
+
+#optBackdrop {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 10000;
+}
+
+#addModal {
+  position: fixed;
+  width: 50%;
+  top: 15%;
+  left: 25%;
+  background-color: white;
+  z-index: 11000;
+  padding: 50px;
+  padding-bottom: 10px;
+  max-height: 70%;
+  overflow: auto;
+  top: 5%;
+  max-height: 95%;
+}
+#addModal input {
+  border: none;
+  margin: 1vh 0;
+  width: 100%;
+  background: transparent;
+  font-family: "Roboto", sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  padding: 10px 20px;
+}
+#addModal input:focus {
+  outline: 2px solid #42b983;
+}
+#addModal wysiwyg {
+  border: none;
+  margin: 1vh 0;
+  width: 100%;
+  background: transparent;
+  font-family: "Roboto", sans-serif;
+  font-size: 15px;
+  font-weight: 400;
+  padding: 15px 20px;
+}
+#addModal wysiwyg:focus {
+  outline: 2px solid #42b983;
+}
+#addModal button {
+  border: transparent;
+  height: 45px;
+  font-size: 20px;
+  padding: 10px 30px 15px 30px;
+  margin: 20px;
+  border-radius: 22.5px;
+  background: #42b983;
+  color: white;
+  cursor: pointer;
+  font-family: "Roboto", sans-serif;
+}
+#addModal button:hover {
+  background: white;
+  color: #42b983;
+  border: 3px solid #42b983;
+  padding: 7px 27px 12px 27px;
+}
+#addModal button:focus {
+  outline: none;
+}
+
+#editModal {
+  position: fixed;
+  width: 50%;
+  top: 15%;
+  left: 25%;
+  background-color: white;
+  z-index: 11000;
+  padding: 50px;
+  padding-bottom: 10px;
+  max-height: 70%;
+  overflow: auto;
+}
+#editModal input {
+  border: none;
+  margin: 1vh 0;
+  width: 100%;
+  background: transparent;
+  font-family: "Roboto", sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  padding: 10px 20px;
+}
+#editModal input:focus {
+  outline: 2px solid #42b983;
+}
+#editModal wysiwyg {
+  border: none;
+  margin: 1vh 0;
+  width: 100%;
+  background: transparent;
+  font-family: "Roboto", sans-serif;
+  font-size: 15px;
+  font-weight: 400;
+  padding: 15px 20px;
+}
+#editModal wysiwyg:focus {
+  outline: 2px solid #42b983;
+}
+#editModal button {
+  border: transparent;
+  height: 45px;
+  font-size: 20px;
+  padding: 10px 30px 15px 30px;
+  margin: 20px;
+  border-radius: 22.5px;
+  background: #42b983;
+  color: white;
+  cursor: pointer;
+  font-family: "Roboto", sans-serif;
+}
+#editModal button:hover {
+  background: white;
+  color: #42b983;
+  border: 3px solid #42b983;
+  padding: 7px 27px 12px 27px;
+}
+#editModal button:focus {
+  outline: none;
+}
+
+#deleteModal {
+  position: fixed;
+  width: 50%;
+  top: 15%;
+  left: 25%;
+  background-color: white;
+  z-index: 11000;
+  padding: 50px;
+  padding-bottom: 10px;
+  max-height: 70%;
+  overflow: auto;
+}
+#deleteModal button {
+  border: transparent;
+  height: 45px;
+  font-size: 20px;
+  padding: 10px 30px 15px 30px;
+  margin: 20px;
+  border-radius: 22.5px;
+  background: #42b983;
+  color: white;
+  cursor: pointer;
+  font-family: "Roboto", sans-serif;
+}
+#deleteModal button:hover {
+  background: white;
+  color: #42b983;
+  border: 3px solid #42b983;
+  padding: 7px 27px 12px 27px;
+}
+#deleteModal button:focus {
+  outline: none;
+}
+#deleteModal h2 {
+  font-family: "Roboto", sans-serif;
+  font-size: 40px;
+}
+#deleteModal h2 span {
+  font-family: "Cambria", sans-serif;
+  font-size: 45px;
+}
+#deleteModal h5 {
+  font-family: "Roboto", sans-serif;
+}
+
+#delComModal {
+  position: fixed;
+  width: 50%;
+  top: 15%;
+  left: 25%;
+  background-color: white;
+  z-index: 11000;
+  padding: 50px;
+  padding-bottom: 10px;
+  max-height: 70%;
+  overflow: auto;
+}
+#delComModal button {
+  border: transparent;
+  height: 45px;
+  font-size: 20px;
+  padding: 10px 30px 15px 30px;
+  margin: 20px;
+  border-radius: 22.5px;
+  background: #42b983;
+  color: white;
+  cursor: pointer;
+  font-family: "Roboto", sans-serif;
+}
+#delComModal button:hover {
+  background: white;
+  color: #42b983;
+  border: 3px solid #42b983;
+  padding: 7px 27px 12px 27px;
+}
+#delComModal button:focus {
+  outline: none;
+}
+#delComModal h2 {
+  font-family: "Roboto", sans-serif;
+  font-size: 40px;
+}
+#delComModal h2 span {
+  font-family: "Cambria", sans-serif;
+  font-size: 45px;
+}
+#delComModal h5 {
+  font-family: "Roboto", sans-serif;
+}
+
+#comment button {
+  border: transparent;
+  height: 45px;
+  font-size: 20px;
+  padding: 10px 30px 15px 30px;
+  margin: 20px;
+  border-radius: 22.5px;
+  background: #42b983;
+  color: white;
+  cursor: pointer;
+  font-family: "Roboto", sans-serif;
+}
+#comment button:hover {
+  background: white;
+  color: #42b983;
+  border: 3px solid #42b983;
+  padding: 7px 27px 12px 27px;
+}
+#comment button:focus {
+  outline: none;
+}
+#comment wysiwyg {
+  width: 100%;
+  padding: 10px 15px;
+  font-size: 16px;
+}
+#comment wysiwyg:focus {
+  outline: 2px solid #42b983;
+}
+
+#searchBtn {
+  width: 15%;
+  margin-bottom: 20px;
+  padding: 10px 0;
+  border: none;
+  background: transparent;
+  color: #42b983;
+  font-size: 20px;
+}
+
+#searchInput {
+  width: 70%;
+  margin-bottom: 20px;
+  padding: 10px 0px;
+  border: 2px solid transparent;
+  font-size: 20px;
+}
+#searchInput:focus {
+  border-bottom: 2px solid #42b983;
+  outline: none;
+}
+
+.optBtn {
+  height: 40px;
+  margin: 0px 10px;
+}
+.optBtn button {
+  background: transparent;
+  border: none;
+  border-radius: 10px;
+  font-size: 15px;
+  color: #42b983;
+  padding: 5px 10px;
+  margin: 5px 2.5px;
+}
+.optBtn button:hover {
+  background: rgba(0, 0, 0, 0.075);
+}
+.optBtn button:focus {
+  outline: none;
+}
+
+.comments {
+  margin: 0;
+  margin-bottom: 100px;
+  padding: 0;
+}
+
+.commenter {
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.replies {
+  padding-right: 0px;
+  height: 75px !important;
+}
+.replies wysiwyg {
+  width: 100%;
+  border: 1px solid gainsboro;
+  font-size: 16px;
+  padding: 10px;
+}
+.replies wysiwyg:focus {
+  outline: 2px solid #42b983;
+}
+
+.replyBtn {
+  height: 75px !important;
+  padding: 0px;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
+.replyBtn button {
+  background: transparent;
+  border: none;
+  font-size: 20px;
+  padding: 5px 10px;
+  color: #42b983;
+  cursor: pointer;
+}
+.replyBtn button:focus {
+  outline: none;
+}
+
+.detail-body {
+  margin-bottom: 50px;
+}
+.detail-body h5 {
+  font-weight: 400 !important;
+}
+.detail-body h6 {
+  font-weight: 400 !important;
+}
+
+.comDelBtn {
+  background: transparent;
+  border: none;
+  border-radius: 10px;
+  font-size: 15px;
+  color: #42b983;
+  padding: 5px 10px;
+  margin: 5px 2.5px;
+}
+.comDelBtn:hover {
+  background: rgba(0, 0, 0, 0.075);
+}
+.comDelBtn:focus {
+  outline: none;
+}
+
+.userloc {
+  margin-top: 25px;
+  padding: 25px 0px;
+  min-height: 235px;
+  display: flex;
+}
+.userloc div {
+  margin: auto 0px;
+  width: 100%;
+}
+
+.fa-check-circle {
+  color: #42b983;
+  font-size: 30px;
+}
+
+#userLocInput {
+  text-align: center;
+  font-size: 24px !important;
+  font-weight: normal !important;
+  text-transform: capitalize;
+}
+#userLocInput:focus {
+  outline: none !important;
+  border-bottom: 2px solid #42b983;
+  padding-bottom: 8px;
+}
+
+#userLocBtn {
+  border-radius: 0;
+  padding: 3px 15px;
+  background-color: transparent;
+  margin: 0px !important;
+}
+#userLocBtn:hover {
+  background-color: white;
+  color: #42b983;
+}
+
+#questionLink {
+  height: 12.5vh;
+  overflow: auto;
+}
+#questionLink a {
+  height: 2.5vh;
+}
+
+#mapContainer {
+  position: fixed !important;
+  width: 50%;
+  top: 15%;
+  left: 25%;
+  z-index: 11000;
+  padding: 50px;
+  padding-bottom: 10px;
+  height: 70%;
+  overflow: auto;
+}
+#mapContainer button {
+  cursor: pointer;
+}
+#mapContainer button:focus {
+  outline: none;
+}
+
+#map {
+  height: 100%;
+  width: 100%;
+}
+
+.writeLoc:hover {
+  color: #42b983;
+  cursor: pointer;
+}
+
+#livechat {
+  width: 99vw;
+  height: 100vh;
+  overflow: hidden;
+}
+#livechat .container {
+  height: 100%;
+  display: flex;
+}
+#livechat .container #lcdiv {
+  margin: auto;
+  width: 50%;
+}
+#livechat .container div h1 {
+  font-family: "Roboto", sans-serif;
+  color: #42b983;
+  font-size: 50px;
+  letter-spacing: 20px;
+  margin-top: -100px;
+  padding-bottom: 50px;
+}
+
+#chatbox {
+  border: 1px solid black;
+  height: 40vh;
+  overflow: auto;
+}
+#chatbox .row {
+  width: 100%;
+}
+
+#addchat input {
+  padding: 5px 10px;
+  font-size: 16px;
+  width: 100%;
+  height: 40px;
+}
+#addchat input:focus {
+  outline: 2px solid #42b983;
+}
+#addchat button {
+  width: 100%;
+  height: 40px;
+  background: #42b983;
+  color: white;
+  border: none;
+}
+#addchat button:hover {
+  background: white;
+  color: #42b983;
+  border: 2px solid #42b983;
+}
+
+/*# sourceMappingURL=style.css.map */

@@ -77,9 +77,13 @@ export default {
       })
         .then(() => {
           this.addModal()
-          this.getQuestions()
           this.title = ''
           this.content = ''
+          if (this.menuIndex === 0) {
+            this.getQuestions()
+          } else {
+            this.getMyQuestions
+          }
         })
         .catch(err => {
           this.notice = err.response.data.message

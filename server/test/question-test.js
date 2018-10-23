@@ -490,7 +490,7 @@ describe('Question', function () {
                 .end((err, res) => {
                     expect(res).to.have.status(500)
                     
-                    // THIS ONE BELOW IS TO CHECK IF THE ARTICLE IS NOT DELETED
+                    // THIS ONE BELOW IS TO CHECK IF THE QUESTION IS NOT DELETED
                     chai
                     .request(app)
                     .get(`/questions/${id}`)
@@ -512,7 +512,7 @@ describe('Question', function () {
                 .end((err, res) => {
                     expect(res).to.have.status(500)
                     
-                    // THIS ONE BELOW IS TO CHECK IF THE ARTICLE IS NOT DELETED
+                    // THIS ONE BELOW IS TO CHECK IF THE QUESTION IS NOT DELETED
                     chai
                     .request(app)
                     .get(`/questions/${id}`)
@@ -568,7 +568,7 @@ describe('Question', function () {
                 .end((err, res) => {
                     expect(res).to.have.status(200)
                     
-                    // THIS ONE BELOW IS TO CHECK IF THE ARTICLE IS DELETED
+                    // THIS ONE BELOW IS TO CHECK IF THE QUESTION IS DELETED
                     chai
                     .request(app)
                     .get(`/questions/${id}`)

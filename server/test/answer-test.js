@@ -351,14 +351,14 @@ describe('Answer', function () {
                 .end((err, res) => {
                     expect(res).to.have.status(500)
                     
-                    // THIS ONE BELOW IS TO CHECK IF THE COMMENT IS NOT DELETED
+                    // THIS ONE BELOW IS TO CHECK IF THE ANSWER IS NOT DELETED
                     chai
                     .request(app)
                     .get('/answers/')
                     .end((err, res) => {
                         expect(res).to.have.status(200)
                         expect(res.body.data).to.be.a('array')
-                        expect(res.body.data).to.have.lengthOf(2) // CAUSE WE MADE 2 COMMENTS
+                        expect(res.body.data).to.have.lengthOf(2) // CAUSE WE MADE 2 ANSWERS
                     })
         
                     done()
@@ -375,14 +375,14 @@ describe('Answer', function () {
                 .end((err, res) => {
                     expect(res).to.have.status(500)
                     
-                    // THIS ONE BELOW IS TO CHECK IF THE COMMENT IS NOT DELETED
+                    // THIS ONE BELOW IS TO CHECK IF THE ANSWER IS NOT DELETED
                     chai
                     .request(app)
                     .get('/answers/')
                     .end((err, res) => {
                         expect(res).to.have.status(200)
                         expect(res.body.data).to.be.a('array')
-                        expect(res.body.data).to.have.lengthOf(2) // CAUSE WE MADE 2 COMMENTS
+                        expect(res.body.data).to.have.lengthOf(2) // CAUSE WE MADE 2 ANSWERS
                         done()
                     })
                 })
@@ -420,14 +420,14 @@ describe('Answer', function () {
                 .end((err, res) => {
                     expect(res).to.have.status(200)
                     
-                    // THIS ONE BELOW IS TO CHECK IF THE COMMENT IS DELETED
+                    // THIS ONE BELOW IS TO CHECK IF THE ANSWER IS DELETED
                     chai
                     .request(app)
                     .get('/answers/')
                     .end((err, res) => {
                         expect(res).to.have.status(200)
                         expect(res.body.data).to.be.a('array')
-                        expect(res.body.data).to.have.lengthOf(2) // CAUSE WE MADE 3 COMMENTS AND IT SHOULD ONLY DELETE 1
+                        expect(res.body.data).to.have.lengthOf(2) // CAUSE WE MADE 3 ANSWERS AND IT SHOULD ONLY DELETE 1
                         done()
                     })        
                 })
@@ -443,14 +443,14 @@ describe('Answer', function () {
                 .end((err, res) => {
                     expect(res).to.have.status(200)
                     
-                    // THIS ONE BELOW IS TO CHECK IF THE COMMENT IS DELETED
+                    // THIS ONE BELOW IS TO CHECK IF THE ANSWER IS DELETED
                     chai
                     .request(app)
                     .get('/answers/')
                     .end((err, res) => {
                         expect(res).to.have.status(200)
                         expect(res.body.data).to.be.a('array')
-                        expect(res.body.data).to.have.lengthOf(0) // CAUSE WE MADE 3 COMMENTS, WE SHOULD HAVE DELETED 1, AND IT SHOULD DELETE THE OTHER 2
+                        expect(res.body.data).to.have.lengthOf(0) // CAUSE WE MADE 3 ANSWERS, WE SHOULD HAVE DELETED 1, AND IT SHOULD DELETE THE OTHER 2
                         done()
                     })        
                 })

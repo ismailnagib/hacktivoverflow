@@ -26,6 +26,7 @@
 <script>
 import axios from 'axios'
 import store from '@/store'
+import { mapMutations } from 'vuex';
 
 export default {
   name: 'signform',
@@ -43,6 +44,7 @@ export default {
     }
   },
   methods: {
+    ...mapMutations(['mutateSignedIn', 'mutateAuthUser']),
     signModal () {
       this.openSignModal = !this.openSignModal
       this.isSigningUp = false
@@ -78,8 +80,8 @@ export default {
           .then(data => {
             localStorage.setItem('token', data.data.token)
             this.signedIn = true
-            this.$store.commit('mutateSignedIn', true)
-            this.$store.commit('mutate', data.data.userId)
+            this.mutateSignedIn(true)
+            this.mutateAuthUser(data.data.userId)
             this.signModal()
           })
           .catch(err => {
@@ -116,8 +118,8 @@ export default {
     signout () {
       localStorage.clear()
       this.signedIn = false
-      this.$store.commit('mutateSignedIn', false)
-      this.$store.commit('mutateAuthUser', null)
+      this.mutateSignedIn(false)
+      this.mutateAuthUser(null)
     },
     checkSignedIn () {
       axios({
@@ -129,13 +131,13 @@ export default {
       })
         .then(data => {
           this.signedIn = true
-          this.$store.commit('mutateSignedIn', true)
-          this.$store.commit('mutateAuthUser', data.data.userId)
+          this.mutateSignedIn(true)
+          this.mutateAuthUser(data.data.userId)
         })
         // eslint-disable-next-line
         .catch(err => {
           this.signedIn = false
-          this.$store.commit('mutateSignedIn', false)
+          this.mutateSignedIn(false)
         })
     }
   },

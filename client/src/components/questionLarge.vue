@@ -147,12 +147,11 @@
 <script>
 import axios from 'axios'
 import store from '@/store'
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 
 export default {
   name: 'questionlarge',
   store,
-  props: ['questions'],
   data () {
     return {
       showAll: true,
@@ -174,6 +173,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['getQuestions']),
     getDetail (id) {
       axios({
         url: `http://localhost:3000/questions/${id}`
@@ -224,7 +224,7 @@ export default {
       })
         .then(() => {
           this.editModal()
-          this.$emit('reload')
+          this.getQuestions()
           if (this.$route.params.id) {
             this.getDetail(this.$route.params.id)
           }
@@ -407,7 +407,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(['signedIn', 'authUser'])
+    ...mapState(['signedIn', 'authUser', 'questions'])
   }
 }
 </script>

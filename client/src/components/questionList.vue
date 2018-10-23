@@ -6,10 +6,10 @@
     <div id='menu' class="border-bottom mb-4 pb-4">
       <div id='menuLink' class="border-bottom pb-2 text-center">
         <button v-if='keyword.length === 0 && menuIndex === 1 && signedIn' class="mr-2" @click='menuChange(0)' title="All Questions"><i class="fas fa-caret-left"></i></button>
-        <button v-else-if='keyword.length === 0 && signedIn' disabled class="mr-2" @click='menuChange(0)'><i class="fas fa-caret-left"></i></button>
+        <button v-else-if='keyword.length === 0 && signedIn' disabled class="mr-2"><i class="fas fa-caret-left"></i></button>
         <router-link to='/' v-if='keyword.length === 0'>{{ menu[menuIndex] }}</router-link>
         <button v-if='keyword.length === 0 && menuIndex === 0 && signedIn' class="ml-2" @click='menuChange(1)' title="My Questions"><i class="fas fa-caret-right"></i></button>
-        <button v-else-if='keyword.length === 0 && signedIn' disabled class="ml-2" @click='menuChange(1)'><i class="fas fa-caret-right"></i></button>
+        <button v-else-if='keyword.length === 0 && signedIn' disabled class="ml-2"><i class="fas fa-caret-right"></i></button>
         <div v-if='keyword.length !== 0'>Search Result</div>
       </div><br>
       <div id="questionLink" >
@@ -34,14 +34,13 @@
 <script>
 import axios from 'axios'
 import store from '@/store'
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 
 export default {
   name: 'questionlist',
   store,
   data () {
     return {
-      questions: [],
       openListBackdrop: false,
       openAddModal: false,
       title: '',
@@ -55,18 +54,7 @@ export default {
     }
   },
   methods: {
-    getQuestions () {
-      axios({
-        url: 'http://localhost:3000/questions'
-      })
-        .then(data => {
-          this.questions = data.data.data
-          this.$emit('questions', data.data.data)
-        })
-        .catch(err => {
-          console.log(err)
-        })
-    },
+    ...mapActions(['getQuestions']),    
     getMyQuestions () {
       axios({
         url: 'http://localhost:3000/questions/self',
@@ -76,7 +64,7 @@ export default {
       })
         .then(data => {
           this.questions = data.data.data
-          this.$emit('questions', data.data.data)
+          // this.$emit('questions', data.data.data)
         })
         .catch(err => {
           console.log(err)
@@ -140,7 +128,7 @@ export default {
         })
           .then(data => {
             this.questions = data.data.data
-            this.$emit('questions', data.data.data)
+            // this.$emit('questions', data.data.data)
           })
           .catch(err => {
             console.log(err)
@@ -149,11 +137,6 @@ export default {
     }
   },
   watch: {
-    reload () {
-      if (this.reload) {
-        this.getQuestions()
-      }
-    },
     menuIndex () {
       this.$router.push('/')
       if (this.menuIndex === 0) {
@@ -167,7 +150,7 @@ export default {
     this.getQuestions()
   },
   computed: {
-    ...mapState(['signedIn'])
+    ...mapState(['signedIn', 'questions']),
   }
 }
 </script>

@@ -32,6 +32,31 @@ export default new Vuex.Store({
         .catch(err => {
           console.log(err)
         })
+    },
+    getMyQuestions (context) {
+      axios({
+        url: 'http://localhost:3000/questions/self',
+        headers: {
+          token: localStorage.getItem('token')
+        }
+      })
+        .then(data => {
+          context.commit('mutateQuestions', data.data.data)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    searchAction (context, keyword) {
+      axios({
+        url: `http://localhost:3000/questions/search?keyword=${keyword}`
+      })
+        .then(data => {
+          context.commit('mutateQuestions', data.data.data)
+        })
+        .catch(err => {
+          console.log(err)
+        })
     }
   }
 })

@@ -54,22 +54,8 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['getQuestions']),    
-    getMyQuestions () {
-      axios({
-        url: 'http://localhost:3000/questions/self',
-        headers: {
-          token: localStorage.getItem('token')
-        }
-      })
-        .then(data => {
-          this.questions = data.data.data
-          // this.$emit('questions', data.data.data)
-        })
-        .catch(err => {
-          console.log(err)
-        })
-    },
+    ...mapActions(['getQuestions', 'getMyQuestions', 'searchAction']),    
+    
     menuChange (index) {
       this.menuIndex = index
     },
@@ -123,22 +109,12 @@ export default {
           this.getMyQuestions()
         }
       } else {
-        axios({
-          url: `http://localhost:3000/questions/search?keyword=${this.keyword}`
-        })
-          .then(data => {
-            this.questions = data.data.data
-            // this.$emit('questions', data.data.data)
-          })
-          .catch(err => {
-            console.log(err)
-          })
+        this.searchAction(this.keyword)
       }
     }
   },
   watch: {
     menuIndex () {
-      this.$router.push('/')
       if (this.menuIndex === 0) {
         this.getQuestions()
       } else {

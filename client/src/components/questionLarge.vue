@@ -243,7 +243,7 @@ export default {
       })
         .then(() => {
           this.deleteModal()
-          this.$emit('reload')
+          this.getQuestions()
           this.$router.push('/')
         })
         .catch(err => {

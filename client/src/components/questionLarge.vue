@@ -11,9 +11,19 @@
         <div v-else>
           <div class="optBtn"></div>
         </div>
-        <router-link :to="{name: 'detail', params: {id: question._id}}">
-          <div class="card-body all-body">
-            <h5 class="card-title pb-2"><strong>{{ question.title }}</strong></h5>
+        <router-link class="question" :to="{name: 'detail', params: {id: question._id}}">
+          <div class="card-body pt-0" :class="{'mt-40': question.author._id === authuser }">
+            <div class="row">
+              <div class="col-2 border-right text-center question-vote">
+                <div>
+                  <h5><b>{{ question.vote }}</b></h5>
+                  <h6><b>VOTE<span v-if='question.vote > 1'>S</span></b></h6>
+                </div>
+              </div>
+              <div class="col-10 text-center question-title">
+                <h5 class="card-title pb-2"><strong>{{ question.title }}</strong></h5>
+              </div>
+            </div>
           </div>
         </router-link>
       </div>
@@ -29,9 +39,23 @@
         <div class="optBtn"></div>
       </div>
       <div class="card-body detail-body">
-        <h4 class="card-title border-bottom mb-3 pb-2"><strong>{{ detail.title }}</strong></h4>
-        <h5> <b>{{ detail.author.name }}</b></h5>
-        <p class="card-text" v-html='detail.content'></p>
+        <div class="row m-0" :class="{'mt-40': detail.author._id === authuser}">
+          <div class="col-2 border-right text-center question-vote">
+            <div>
+              <span v-if='detail.author._id !== authuser && signedin'><i class="fas fa-chevron-up" @click='qUpvote' :class="{voted: detail.upvote.indexOf(authuser) !== -1}"></i></span>
+              <h5><b>{{ detail.vote }}</b></h5>
+              <span v-if='detail.author._id !== authuser && signedin'><i class="fas fa-chevron-down" @click='qDownvote' :class="{voted: detail.downvote.indexOf(authuser) !== -1}"></i></span>
+              <h6 v-else><b>VOTE<span v-if='detail.vote > 1'>S</span></b></h6>
+            </div>
+          </div>
+          <div class="col-10 text-center question-title">
+            <h4 class="card-title border-bottom mb-3 pb-2"><strong>{{ detail.title }}</strong></h4>
+            <h6>by <b>{{ detail.author.name }}</b></h6><br>
+          </div>
+        </div>
+        <div class="row mt-4">
+          <p class="card-text" v-html='detail.content'></p>
+        </div>
       </div>
       <div v-if="signedin" class="text-left" id='answer'>
         <h5>Add your answers here . . .</h5>
@@ -44,7 +68,15 @@
       </div>
       <div class="answers border-top pt-4 mt-4">
         <div class="row pb-2 mb-4 border-bottom" v-for='(answer, index) in detail.answers' :key='index'>
-          <div class="col-11 text-justify">
+          <div class="col-2 border-right text-center question-vote pr-0">
+            <div>
+              <span v-if='answer.answerer._id !== authuser && signedin'><i class="fas fa-chevron-up" @click='aUpvote(answer._id)' :class="{voted: answer.upvote.indexOf(authuser) !== -1}"></i></span>
+              <h5><b>{{ answer.vote }}</b></h5>
+              <span v-if='answer.answerer._id !== authuser && signedin'><i v-if='answer.answerer._id !== authuser' class="fas fa-chevron-down" @click='aDownvote(answer._id)' :class="{voted: answer.downvote.indexOf(authuser) !== -1}"></i></span>
+              <h6 v-else><b>VOTE<span v-if='answer.vote > 1'>S</span></b></h6>
+            </div>
+          </div>
+          <div class="col-9 text-justify">
             <div class="answerer">
               <b>{{ answer.answerer.name }}</b> answered on {{ answer.createdAt.slice(0, 10) }}
             </div>
@@ -189,10 +221,9 @@ export default {
       })
         .then(() => {
           this.editModal()
+          this.$emit('reload')
           if (this.$route.params.id) {
             this.getDetail(this.$route.params.id)
-          } else {
-            this.$emit('reload')
           }
         })
         .catch(err => {
@@ -279,6 +310,78 @@ export default {
         .then(data => {
           this.deleteAnswerModal()
           this.getDetail(this.$route.params.id)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    qUpvote () {
+      axios({
+        url: `http://localhost:3000/questions/upvote`,
+        method: 'patch',
+        headers: {
+          token: localStorage.getItem('token')
+        },
+        data: {
+          id: this.detail._id
+        }
+      })
+        .then(() => {
+          this.getDetail(this.detail._id)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    qDownvote () {
+      axios({
+        url: `http://localhost:3000/questions/downvote`,
+        method: 'patch',
+        headers: {
+          token: localStorage.getItem('token')
+        },
+        data: {
+          id: this.detail._id
+        }
+      })
+        .then(() => {
+          this.getDetail(this.detail._id)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    aUpvote (id) {
+      axios({
+        url: `http://localhost:3000/answers/upvote`,
+        method: 'patch',
+        headers: {
+          token: localStorage.getItem('token')
+        },
+        data: {
+          id: id
+        }
+      })
+        .then(() => {
+          this.getDetail(this.detail._id)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    aDownvote (id) {
+      axios({
+        url: `http://localhost:3000/answers/downvote`,
+        method: 'patch',
+        headers: {
+          token: localStorage.getItem('token')
+        },
+        data: {
+          id: id
+        }
+      })
+        .then(() => {
+          this.getDetail(this.detail._id)
         })
         .catch(err => {
           console.log(err)

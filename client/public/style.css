@@ -142,19 +142,15 @@ body {
 
 a {
   color: black;
-  font-family: "Roboto", sans-serif;
-  font-weight: 700;
 }
+
 a:hover {
-  color: #42b983;
   text-decoration: none;
 }
 
 #menuLink a {
   font-size: 30px;
   letter-spacing: 5px;
-  font-family: "Roboto", sans-serif;
-  font-weight: normal;
   height: 45px;
 }
 #menuLink div {
@@ -186,9 +182,21 @@ a:hover {
   cursor: default;
 }
 
+.question:hover {
+  color: black;
+}
+
 #questionlist {
   height: 95vh;
   overflow: scroll;
+}
+
+#questionlist a {
+  font-family: "Roboto", sans-serif;
+}
+
+#questionlist a:hover {
+  color: #42b983;
 }
 
 #questionlarge {
@@ -199,8 +207,47 @@ a:hover {
   opacity: 0.5;
 }
 
+.question-title {
+  display: flex;
+  flex-direction: column;
+}
+
+.question-title:hover {
+  color: #42b983;
+  cursor: pointer;
+}
+
+.question-title h5, .question-title h4 {
+  margin: auto;
+}
+
+.question-title h4 {
+  width: 100%;
+}
+
+.question-vote {
+  cursor: default;
+  display: flex;
+}
+
+.question-vote div {
+  margin: auto;
+}
+
+.question-vote i:hover {
+  cursor: pointer;
+}
+
+.question-vote i.voted {
+  color: #42b983;
+}
+
 .card-body {
   font-family: "Roboto", sans-serif;
+}
+
+.card-body:hover {
+  cursor: default;
 }
 
 .card-title {
@@ -582,15 +629,12 @@ a:hover {
   outline: none;
 }
 
-.all-body {
-  margin-top: 20px
+.mt-40 {
+  margin-top: 40px !important
 }
 
 .detail-body {
   margin-bottom: 50px;
-}
-.detail-body h5 {
-  font-weight: 400 !important;
 }
 .detail-body h6 {
   font-weight: 400 !important;
@@ -743,5 +787,3 @@ a:hover {
   color: #42b983;
   border: 2px solid #42b983;
 }
-
-/*# sourceMappingURL=style.css.map */

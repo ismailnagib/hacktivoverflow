@@ -1,6 +1,5 @@
 const Comment = require('../models/commentModel')
-const Article = require('../models/articleModel')
-const User = require('../models/userModel')
+const Question = require('../models/questionModel')
 
 module.exports = {
     
@@ -26,11 +25,11 @@ module.exports = {
                 commenter: req.userId
             })
             .then(comment => {
-                Article.findById(req.body.postId)
-                .then(article => {
-                    let comments = article.comments
+                Question.findById(req.body.postId)
+                .then(question => {
+                    let comments = question.comments
                     comments.push(comment._id)
-                    Article.updateOne({
+                    Question.updateOne({
                         _id: req.body.postId
                     }, {
                         comments: comments
@@ -82,7 +81,7 @@ module.exports = {
                         })
                     })
                 } else {
-                    res.status(500).json({message: 'A comment may only be owned by an article or a level 1 comment'})
+                    res.status(500).json({message: 'A comment may only be owned by an question or a level 1 comment'})
                 }
             })
             .catch(err => {

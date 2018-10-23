@@ -17,7 +17,7 @@
         <!-- <span class="unselectable"> | </span> -->
         <button @click='signup()' :class="{ active: isSigningUp }" ><strong>Sign Up</strong></button>
       </div>
-      <div v-if="notice.length > 0" class='unselectable mt-4 mb-4' id='notice'><b>{{ notice }}</b></div>
+      <div v-if="notice.length > 0" class='unselectable mt-4 mb-4' style="padding: 0 10%" id='notice'><b>{{ notice }}</b></div>
       <div v-else class="placeholder mt-4 mb-4">placeholder</div>
     </div>
   </div>

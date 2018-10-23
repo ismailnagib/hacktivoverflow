@@ -138,7 +138,7 @@ export default {
       reply: [],
       replyNotice: [],
       openDelComModal: false,
-      delComId: '',
+      delComId: ''
     }
   },
   methods: {

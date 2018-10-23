@@ -1,9 +1,9 @@
-const Article = require('../models/articleModel')
+const Question = require('../models/questionModel')
 
 module.exports = {
     
     show: function(req, res) {
-        Article.find({}, null, {
+        Question.find({}, null, {
             sort: {
                 title: 'ASC'
             }
@@ -18,7 +18,7 @@ module.exports = {
     },
 
     showOne: function(req, res) {
-        Article.findById(req.params.id)
+        Question.findById(req.params.id)
         .populate('author')
         .populate({
             path: 'comments',
@@ -44,7 +44,7 @@ module.exports = {
     },
 
     showMine: function(req, res) {
-        Article.find({
+        Question.find({
             author: req.userId
         })
         .populate('author')
@@ -58,21 +58,19 @@ module.exports = {
 
     add: function(req, res) {
         if ((!req.body.title && !req.body.content) || (req.body.title.length === 0 && req.body.content.length === 0)) {
-            res.status(500).json({message: 'An article has to have a title and a content'})
+            res.status(500).json({message: 'An question has to have a title and a content'})
         } else if (!req.body.title || req.body.title.length === 0) {
-            res.status(500).json({message: 'An article has to have a title'})
+            res.status(500).json({message: 'An question has to have a title'})
         } else if (!req.body.content || req.body.content.length === 0) {
-            res.status(500).json({message: 'An article has to have a content'})
+            res.status(500).json({message: 'An question has to have a content'})
         } else {
             if (!req.body.image || req.body.image.length === 0) {
                 req.body.image = 'https://via.placeholder.com/700x250'
             }
-            Article.create({
+            Question.create({
                 title: req.body.title,
                 content: req.body.content,
-                location: req.body.loc,
                 author: req.userId,
-                image: req.body.image
             })
             .then(data => {
                 res.status(201).json({data: data})
@@ -85,13 +83,13 @@ module.exports = {
 
     edit: function(req, res) {
         if ((!req.body.title && !req.body.content) || (req.body.title.length === 0 && req.body.content.length === 0)) {
-            res.status(500).json({message: 'An article has to have a title and a content'})
+            res.status(500).json({message: 'An question has to have a title and a content'})
         } else if (!req.body.title || req.body.title.length === 0) {
-            res.status(500).json({message: 'An article has to have a title'})
+            res.status(500).json({message: 'An question has to have a title'})
         } else if (!req.body.content || req.body.content.length === 0) {
-            res.status(500).json({message: 'An article has to have a content'})
+            res.status(500).json({message: 'An question has to have a content'})
         } else {
-            Article.updateOne({
+            Question.updateOne({
                 _id: req.params.id,
                 author: req.userId
             }, {
@@ -108,7 +106,7 @@ module.exports = {
     },
 
     remove: function(req, res) {
-        Article.deleteOne({
+        Question.deleteOne({
             _id: req.params.id,
             author: req.userId 
         })
@@ -121,7 +119,7 @@ module.exports = {
     },
 
     search: function(req, res) {
-        Article.find({
+        Question.find({
             title: new RegExp(req.query.keyword, 'i')
         }, null, {
             sort: {

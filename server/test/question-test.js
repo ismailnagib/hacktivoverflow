@@ -3,13 +3,13 @@ process.env.STATUS = 'test'
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const expect = chai.expect;
-const Article = require('../models/articleModel')
+const Question = require('../models/questionModel')
 const User = require('../models/userModel')
 const app = require('../app')
 
 chai.use(chaiHttp);
 
-describe('Article', function () {
+describe('Question', function () {
 
     let token = ''
     let id = ''
@@ -20,7 +20,7 @@ describe('Article', function () {
         .post('/users/register')
         .send({
             name: 'Author',
-            email: 'author@article.com',
+            email: 'author@question.com',
             password: 'password'
         })
         .end((err, res) => {
@@ -28,7 +28,7 @@ describe('Article', function () {
             .request(app)
             .post('/users/login')
             .send({
-                email: 'author@article.com',
+                email: 'author@question.com',
                 password: 'password'
             })
             .end((err, res) => {
@@ -39,12 +39,12 @@ describe('Article', function () {
     })
     
     this.afterAll('Remove dummy data from DB', function (done) {
-        Article.deleteOne({
+        Question.deleteOne({
             title: 'Test'
         })
         .then(() => {
             User.deleteOne({
-                email: 'author@article.com'
+                email: 'author@question.com'
             })
             .then(() => {
                 done()
@@ -52,14 +52,14 @@ describe('Article', function () {
         })
     })
 
-    describe('POST /articles/', function () {
+    describe('POST /questions/', function () {
 
         describe('=====> no / invalid token', function () {
             
             it('no token | should return error 500', function(done) {
                 chai
                 .request(app)
-                .post('/articles/')
+                .post('/questions/')
                 .send({
                     title: 'Test',
                     content: 'Lorem ipsum'
@@ -73,7 +73,7 @@ describe('Article', function () {
             it('invalid token | should return error 500', function(done) {
                 chai
                 .request(app)
-                .post('/articles/')
+                .post('/questions/')
                 .set({
                     token: 'invalid'
                 })
@@ -90,10 +90,10 @@ describe('Article', function () {
         
         describe('=====> valid token', function () {
 
-            it('valid input | should save a new article', function(done) {
+            it('valid input | should save a new question', function(done) {
                 chai
                 .request(app)
-                .post('/articles/')
+                .post('/questions/')
                 .set({
                     token: token
                 })
@@ -115,7 +115,7 @@ describe('Article', function () {
             it('no title | should return error 500', function(done) {
                 chai
                 .request(app)
-                .post('/articles/')
+                .post('/questions/')
                 .set({
                     token: token
                 })
@@ -126,7 +126,7 @@ describe('Article', function () {
                 .end((err, res) => {
                     expect(res).to.have.status(500)
                     expect(res.body).to.have.property('message')
-                    expect(res.body.message).to.equal('An article has to have a title')
+                    expect(res.body.message).to.equal('An question has to have a title')
                     done()
                 })
             });
@@ -134,7 +134,7 @@ describe('Article', function () {
             it('no content | should return error 500', function(done) {
                 chai
                 .request(app)
-                .post('/articles/')
+                .post('/questions/')
                 .set({
                     token: token
                 })
@@ -145,7 +145,7 @@ describe('Article', function () {
                 .end((err, res) => {
                     expect(res).to.have.status(500)
                     expect(res.body).to.have.property('message')
-                    expect(res.body.message).to.equal('An article has to have a content')
+                    expect(res.body.message).to.equal('An question has to have a content')
                     done()
                 })
             });
@@ -153,7 +153,7 @@ describe('Article', function () {
             it('no title & no content | should return error 500', function(done) {
                 chai
                 .request(app)
-                .post('/articles/')
+                .post('/questions/')
                 .set({
                     token: token
                 })
@@ -164,19 +164,19 @@ describe('Article', function () {
                 .end((err, res) => {
                     expect(res).to.have.status(500)
                     expect(res.body).to.have.property('message')
-                    expect(res.body.message).to.equal('An article has to have a title and a content')
+                    expect(res.body.message).to.equal('An question has to have a title and a content')
                     done()
                 })
             });
         })
     })
     
-    describe('GET /articles/', function () {
+    describe('GET /questions/', function () {
 
         it('without params | should return an array', function(done) {
             chai
             .request(app)
-            .get('/articles/')
+            .get('/questions/')
             .end((err, res) => {
                 expect(res).to.have.status(200)
                 expect(res.body.data).to.be.a('array')
@@ -197,7 +197,7 @@ describe('Article', function () {
         it('with params :id | should return an object', function (done) {
             chai
             .request(app)
-            .get(`/articles/${id}/`)
+            .get(`/questions/${id}/`)
             .end((err, res) => {
                 expect(res).to.have.status(200)
                 expect(res.body.data).to.be.a('object')
@@ -214,12 +214,12 @@ describe('Article', function () {
         })
     })
 
-    describe('GET /articles/search/', function () {
+    describe('GET /questions/search/', function () {
 
         it('keyword = t | should return an array', function(done) {
             chai
             .request(app)
-            .get(`/articles/search?keyword=t`)
+            .get(`/questions/search?keyword=t`)
             .end((err, res) => {
                 expect(res).to.have.status(200)
                 expect(res.body.data).to.be.a('array')
@@ -240,7 +240,7 @@ describe('Article', function () {
         it('keyword = x | should return an empty array', function(done) {
             chai
             .request(app)
-            .get(`/articles/search?keyword=x`)
+            .get(`/questions/search?keyword=x`)
             .end((err, res) => {
                 expect(res).to.have.status(200)
                 expect(res.body.data).to.be.a('array')
@@ -252,7 +252,7 @@ describe('Article', function () {
         it('keyword = "" | should return an array', function(done) {
             chai
             .request(app)
-            .get(`/articles/search?keyword=`)
+            .get(`/questions/search?keyword=`)
             .end((err, res) => {
                 expect(res).to.have.status(200)
                 expect(res.body.data).to.be.a('array')
@@ -273,7 +273,7 @@ describe('Article', function () {
         it('no keyword | should return an array', function(done) {
             chai
             .request(app)
-            .get(`/articles/search`)
+            .get(`/questions/search`)
             .end((err, res) => {
                 expect(res).to.have.status(200)
                 expect(res.body.data).to.be.a('array')
@@ -292,14 +292,14 @@ describe('Article', function () {
         })
     })
 
-    describe('PUT /articles/', function () {
+    describe('PUT /questions/', function () {
 
         describe('=====> no / invalid token', function () {
             
             it('no token | should return error 500', function(done) {
                 chai
                 .request(app)
-                .put(`/articles/${id}`)
+                .put(`/questions/${id}`)
                 .send({
                     title: 'The title was Test',
                     content: 'The content was Lorem ipsum',
@@ -310,7 +310,7 @@ describe('Article', function () {
                     // THIS ONE BELOW IS TO CHECK IF THE TITLE AND THE CONTENT ARE STILL THE SAME
                     chai
                     .request(app)
-                    .get(`/articles/${id}`)
+                    .get(`/questions/${id}`)
                     .end((err, res2) => {
                         expect(res2).to.have.status(200)
                         expect(res2.body.data).to.be.a('object')
@@ -326,7 +326,7 @@ describe('Article', function () {
             it('invalid token | should return error 500', function(done) {
                 chai
                 .request(app)
-                .put(`/articles/${id}`)
+                .put(`/questions/${id}`)
                 .set({
                     token: 'invalid'
                 })
@@ -340,7 +340,7 @@ describe('Article', function () {
                     // THIS ONE BELOW IS TO CHECK IF THE TITLE AND THE CONTENT ARE STILL THE SAME
                     chai
                     .request(app)
-                    .get(`/articles/${id}`)
+                    .get(`/questions/${id}`)
                     .end((err, res2) => {
                         expect(res2).to.have.status(200)
                         expect(res2.body.data).to.be.a('object')
@@ -356,10 +356,10 @@ describe('Article', function () {
 
         describe('=====> valid token', function () {
 
-            it('valid input | should edit added article', function (done) {
+            it('valid input | should edit added question', function (done) {
                 chai
                 .request(app)
-                .put(`/articles/${id}`)
+                .put(`/questions/${id}`)
                 .set({
                     token: token
                 })
@@ -372,7 +372,7 @@ describe('Article', function () {
     
                     chai
                     .request(app)
-                    .get(`/articles/${id}`)
+                    .get(`/questions/${id}`)
                     .end((err, res2) => {
                         expect(res2).to.have.status(200)
                         expect(res2.body.data).to.be.a('object')
@@ -388,7 +388,7 @@ describe('Article', function () {
             it('no title | should return error 500', function (done) {
                 chai
                 .request(app)
-                .put(`/articles/${id}`)
+                .put(`/questions/${id}`)
                 .set({
                     token: token
                 })
@@ -399,12 +399,12 @@ describe('Article', function () {
                 .end((err, res) => {
                     expect(res).to.have.status(500)
                     expect(res.body).to.have.property('message')
-                    expect(res.body.message).to.equal('An article has to have a title')
+                    expect(res.body.message).to.equal('An question has to have a title')
     
                     // THIS ONE BELOW IS TO CHECK IF THE TITLE IS STILL THE SAME
                     chai
                     .request(app)
-                    .get(`/articles/${id}`)
+                    .get(`/questions/${id}`)
                     .end((err, res2) => {
                         expect(res2).to.have.status(200)
                         expect(res2.body.data).to.be.a('object')
@@ -418,7 +418,7 @@ describe('Article', function () {
             it('no content | should return error 500', function (done) {
                 chai
                 .request(app)
-                .put(`/articles/${id}`)
+                .put(`/questions/${id}`)
                 .set({
                     token: token
                 })
@@ -429,12 +429,12 @@ describe('Article', function () {
                 .end((err, res) => {
                     expect(res).to.have.status(500)
                     expect(res.body).to.have.property('message')
-                    expect(res.body.message).to.equal('An article has to have a content')
+                    expect(res.body.message).to.equal('An question has to have a content')
     
                     // THIS ONE BELOW IS TO CHECK IF THE CONTENT IS STILL THE SAME
                     chai
                     .request(app)
-                    .get(`/articles/${id}`)
+                    .get(`/questions/${id}`)
                     .end((err, res2) => {
                         expect(res2).to.have.status(200)
                         expect(res2.body.data).to.be.a('object')
@@ -448,7 +448,7 @@ describe('Article', function () {
             it('no title & no content | should return error 500', function (done) {
                 chai
                 .request(app)
-                .put(`/articles/${id}`)
+                .put(`/questions/${id}`)
                 .set({
                     token: token
                 })
@@ -459,12 +459,12 @@ describe('Article', function () {
                 .end((err, res) => {
                     expect(res).to.have.status(500)
                     expect(res.body).to.have.property('message')
-                    expect(res.body.message).to.equal('An article has to have a title and a content')
+                    expect(res.body.message).to.equal('An question has to have a title and a content')
     
                     // THIS ONE BELOW IS TO CHECK IF THE TITLE AND THE CONTENT ARE STILL THE SAME
                     chai
                     .request(app)
-                    .get(`/articles/${id}`)
+                    .get(`/questions/${id}`)
                     .end((err, res2) => {
                         expect(res2).to.have.status(200)
                         expect(res2.body.data).to.be.a('object')
@@ -479,21 +479,21 @@ describe('Article', function () {
         })
     })
 
-    describe('DELETE /articles/', function () {
+    describe('DELETE /questions/', function () {
 
         describe('=====> no / invalid token', function () {
             
             it('no token | should return error 500', function(done) {
                 chai
                 .request(app)
-                .delete(`/articles/${id}`)
+                .delete(`/questions/${id}`)
                 .end((err, res) => {
                     expect(res).to.have.status(500)
                     
                     // THIS ONE BELOW IS TO CHECK IF THE ARTICLE IS NOT DELETED
                     chai
                     .request(app)
-                    .get(`/articles/${id}`)
+                    .get(`/questions/${id}`)
                     .end((err, res) => {
                         expect(res).to.have.status(200)
                         expect(res.body.data).to.not.equal(null)
@@ -505,7 +505,7 @@ describe('Article', function () {
             it('invalid token | should return error 500', function(done) {
                 chai
                 .request(app)
-                .delete(`/articles/${id}`)
+                .delete(`/questions/${id}`)
                 .set({
                     token: 'invalid'
                 })
@@ -515,7 +515,7 @@ describe('Article', function () {
                     // THIS ONE BELOW IS TO CHECK IF THE ARTICLE IS NOT DELETED
                     chai
                     .request(app)
-                    .get(`/articles/${id}`)
+                    .get(`/questions/${id}`)
                     .end((err, res) => {
                         expect(res).to.have.status(200)
                         expect(res.body.data).to.not.equal(null)
@@ -527,10 +527,10 @@ describe('Article', function () {
 
         describe('=====> valid token', function () {
             
-            it('should delete added article', function(done) {
+            it('should delete added question', function(done) {
                 chai
                 .request(app)
-                .delete(`/articles/${id}`)
+                .delete(`/questions/${id}`)
                 .set({
                     token: token
                 })
@@ -540,7 +540,7 @@ describe('Article', function () {
                     // THIS ONE BELOW IS TO CHECK IF THE ARTICLE IS DELETED
                     chai
                     .request(app)
-                    .get(`/articles/${id}`)
+                    .get(`/questions/${id}`)
                     .end((err, res) => {
                         expect(res).to.have.status(200)
                         expect(res.body.data).to.equal(null)

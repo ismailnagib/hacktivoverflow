@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { show, showOne, showMine, add, edit, remove, search } = require('../controllers/articleController')
+const { show, showOne, showMine, add, edit, remove, search } = require('../controllers/questionController')
 const isLogin = require('../middlewares/isLogin')
 
 router.get('/', show)

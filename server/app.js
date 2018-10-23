@@ -8,7 +8,7 @@ var mongoose = require('mongoose')
 
 var app = express();
 
-var articlesRouter = require('./routes/articles')
+var questionsRouter = require('./routes/questions')
 var usersRouter = require('./routes/users')
 var commentsRouter = require('./routes/comments')
 var uploadRouter = require('./routes/upload');
@@ -24,7 +24,7 @@ if (process.env.STATUS === 'test') {
     mongoose.connect(`mongodb://localhost:27017/wonder-hackover`, { useNewUrlParser: true });
 }
 
-app.use('/articles', articlesRouter)
+app.use('/questions', questionsRouter)
 app.use('/users', usersRouter)
 app.use('/comments', commentsRouter)
 app.use('/upload', uploadRouter);

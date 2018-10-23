@@ -4,7 +4,7 @@ var chai = require('chai');
 var chaiHttp = require('chai-http');
 var expect = chai.expect;
 var Comment = require('../models/commentModel')
-const Article = require('../models/articleModel')
+const Question = require('../models/questionModel')
 const User = require('../models/userModel')
 var app = require('../app')
 
@@ -14,17 +14,17 @@ describe('Comment', function () {
     
     let token = ''
     let commenter = ''
-    let articleId = ''
+    let questionId = ''
     let commentId = ''
     let commentId2 = ''
 
-    this.beforeAll('Add dummy user & article to DB', function (done) {
+    this.beforeAll('Add dummy user & question to DB', function (done) {
         chai
         .request(app)
         .post('/users/register')
         .send({
             name: 'Commenter',
-            email: 'commenter@article.com',
+            email: 'commenter@question.com',
             password: 'password'
         })
         .end((err, res) => {
@@ -34,7 +34,7 @@ describe('Comment', function () {
             .request(app)
             .post('/users/login')
             .send({
-                email: 'commenter@article.com',
+                email: 'commenter@question.com',
                 password: 'password'
             })
             .end((err, res2) => {
@@ -42,7 +42,7 @@ describe('Comment', function () {
                 
                 chai
                 .request(app)
-                .post('/articles/')
+                .post('/questions/')
                 .set({
                     token: token
                 })
@@ -51,7 +51,7 @@ describe('Comment', function () {
                     content: 'Lorem ipsum'
                 })
                 .end((err, res3) => {
-                    articleId = res3.body.data._id
+                    questionId = res3.body.data._id
                     done()
                 })
             })
@@ -63,12 +63,12 @@ describe('Comment', function () {
             words: 'Comment Test',
         })
         .then(() => {
-            Article.deleteOne({
+            Question.deleteOne({
                 title: 'Comment Test'
             })
             .then(() => {
                 User.deleteOne({
-                    email: 'commenter@article.com'
+                    email: 'commenter@question.com'
                 })
                 .then(() => {
                     done()
@@ -87,7 +87,7 @@ describe('Comment', function () {
                 .post('/comments/')
                 .send({
                     words: 'Comment Test',
-                    postId: articleId,
+                    postId: questionId,
                 })
                 .end((err, res) => {
                     expect(res).to.have.status(500)
@@ -104,7 +104,7 @@ describe('Comment', function () {
                 })
                 .send({
                     words: 'Comment Test',
-                    postId: articleId,
+                    postId: questionId,
                 })
                 .end((err, res) => {
                     expect(res).to.have.status(500)
@@ -124,7 +124,7 @@ describe('Comment', function () {
                 })
                 .send({
                     words: 'Comment Test',
-                    postId: articleId,
+                    postId: questionId,
                 })
                 .end((err, res) => {
                     expect(res).to.have.status(201)
@@ -167,7 +167,7 @@ describe('Comment', function () {
                 })
                 .send({
                     words: '',
-                    postId: articleId,
+                    postId: questionId,
                 })
                 .end((err, res) => {
                     expect(res).to.have.status(500)
@@ -276,7 +276,7 @@ describe('Comment', function () {
                 .end((err, res) => {
                     expect(res).to.have.status(500)
                     expect(res.body).to.have.property('message')
-                    expect(res.body.message).to.equal('A comment may only be owned by an article or a level 1 comment')
+                    expect(res.body.message).to.equal('A comment may only be owned by an question or a level 1 comment')
                     done()
                 })
             })

@@ -1,8 +1,7 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
-const articleSchema = new Schema({
-    image: String,
+const questionSchema = new Schema({
     title: {
       type: String,
       required: true
@@ -11,7 +10,6 @@ const articleSchema = new Schema({
       type: String,
       required: true
     },
-    location: String,
     author: {
       type: Schema.Types.ObjectId,
       ref: 'User',
@@ -25,5 +23,5 @@ const articleSchema = new Schema({
   timestamps: true
 });
 
-const Article = mongoose.model('Article', articleSchema)
-module.exports = Article
+const Question = mongoose.model('Question', questionSchema)
+module.exports = Question

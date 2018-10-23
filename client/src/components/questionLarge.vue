@@ -2,7 +2,7 @@
   <div id='questionlarge'>
     <div v-if='showAll'>
       <div class="border mb-4" v-for='(question, index) in questions' :key='index'>
-        <div v-if='question.author._id === authuser'>
+        <div v-if='question.author._id === authUser'>
           <div class="optBtn float-right">
             <button title="Edit Question" @click='editModal(question._id, question.title, question.content)'><i class="far fa-edit"></i></button>
             <button title="Delete Question" @click='deleteModal(question._id)'><i class="far fa-trash-alt"></i></button>
@@ -12,7 +12,7 @@
           <div class="optBtn"></div>
         </div>
         <router-link class="question" :to="{name: 'detail', params: {id: question._id}}">
-          <div class="card-body pt-0" :class="{'mt-40': question.author._id === authuser }">
+          <div class="card-body pt-0" :class="{'mt-40': question.author._id === authUser }">
             <div class="row">
               <div class="col-2 border-right text-center question-vote">
                 <div>
@@ -29,7 +29,7 @@
       </div>
     </div>
     <div v-else>
-      <div v-if='detail.author._id === authuser'>
+      <div v-if='detail.author._id === authUser'>
         <div class="optBtn float-right">
           <button title="Edit Question" @click='editModal(detail._id, detail.title, detail.content)'><i class="far fa-edit"></i></button>
           <button title="Delete Question" @click='deleteModal(detail._id)'><i class="far fa-trash-alt"></i></button>
@@ -39,12 +39,12 @@
         <div class="optBtn"></div>
       </div>
       <div class="card-body detail-body">
-        <div class="row m-0" :class="{'mt-40': detail.author._id === authuser}">
+        <div class="row m-0" :class="{'mt-40': detail.author._id === authUser}">
           <div class="col-2 border-right text-center question-vote">
             <div>
-              <span v-if='detail.author._id !== authuser && signedin'><i class="fas fa-chevron-up" @click='qUpvote' :class="{voted: detail.upvote.indexOf(authuser) !== -1}"></i></span>
+              <span v-if='detail.author._id !== authUser && signedIn'><i class="fas fa-chevron-up" @click='qUpvote' :class="{voted: detail.upvote.indexOf(authUser) !== -1}"></i></span>
               <h5><b>{{ detail.vote }}</b></h5>
-              <span v-if='detail.author._id !== authuser && signedin'><i class="fas fa-chevron-down" @click='qDownvote' :class="{voted: detail.downvote.indexOf(authuser) !== -1}"></i></span>
+              <span v-if='detail.author._id !== authUser && signedIn'><i class="fas fa-chevron-down" @click='qDownvote' :class="{voted: detail.downvote.indexOf(authUser) !== -1}"></i></span>
               <h6 v-else><b>VOTE<span v-if='detail.vote > 1'>S</span></b></h6>
             </div>
           </div>
@@ -57,7 +57,7 @@
           <p class="card-text" v-html='detail.content'></p>
         </div>
       </div>
-      <div v-if="signedin" class="text-left" id='answer'>
+      <div v-if="signedIn" class="text-left" id='answer'>
         <h5>Add your answers here . . .</h5>
         <wysiwyg class="text-left" style="height: 100px; overflow: auto" v-model='answer'></wysiwyg>
         <div class="text-center">
@@ -70,9 +70,9 @@
         <div class="row pb-2 mb-4 border-bottom" v-for='(answer, index) in detail.answers' :key='index'>
           <div class="col-2 border-right text-center question-vote pr-0">
             <div>
-              <span v-if='answer.answerer._id !== authuser && signedin'><i class="fas fa-chevron-up" @click='aUpvote(answer._id)' :class="{voted: answer.upvote.indexOf(authuser) !== -1}"></i></span>
+              <span v-if='answer.answerer._id !== authUser && signedIn'><i class="fas fa-chevron-up" @click='aUpvote(answer._id)' :class="{voted: answer.upvote.indexOf(authUser) !== -1}"></i></span>
               <h5><b>{{ answer.vote }}</b></h5>
-              <span v-if='answer.answerer._id !== authuser && signedin'><i v-if='answer.answerer._id !== authuser' class="fas fa-chevron-down" @click='aDownvote(answer._id)' :class="{voted: answer.downvote.indexOf(authuser) !== -1}"></i></span>
+              <span v-if='answer.answerer._id !== authUser && signedIn'><i v-if='answer.answerer._id !== authUser' class="fas fa-chevron-down" @click='aDownvote(answer._id)' :class="{voted: answer.downvote.indexOf(authUser) !== -1}"></i></span>
               <h6 v-else><b>VOTE<span v-if='answer.vote > 1'>S</span></b></h6>
             </div>
           </div>
@@ -82,11 +82,11 @@
             </div>
             <h6 v-html="answer.words"></h6>
           </div>
-          <div class="col-1" v-if='answer.answerer._id === authuser'>
+          <div class="col-1" v-if='answer.answerer._id === authUser'>
             <button class='ansDelBtn' @click='deleteAnswerModal(answer._id)'><i class="far fa-trash-alt"></i></button>
           </div>
           <div class="col-1" v-else></div>
-          <div v-if='signedin' class="row col-12 mt-4 pr-0">
+          <div v-if='signedIn' class="row col-12 mt-4 pr-0">
             <div class="col-11 mb-1 replies">
               <wysiwyg class='text-left' style="height: 100px; overflow: auto" placeholder="Reply to this answer"  onfocus='this.placeholder = ""' onblur='this.placeholder = "Reply to this answer"' v-model='reply[index]'></wysiwyg>
             </div>
@@ -104,7 +104,7 @@
               </div>
               <h6 v-html="reply.words"></h6>
             </div>
-            <div class="col-1 border-top pt-3 pb-2" v-if='reply.answerer._id === authuser'>
+            <div class="col-1 border-top pt-3 pb-2" v-if='reply.answerer._id === authUser'>
               <button class='ansDelBtn' @click='deleteAnswerModal(reply._id)'><i class="far fa-trash-alt"></i></button>
             </div>
             <div class="col-1 border-top pt-3 pb-2" v-else></div>
@@ -146,10 +146,13 @@
 
 <script>
 import axios from 'axios'
+import store from '@/store'
+import { mapState } from 'vuex'
 
 export default {
   name: 'questionlarge',
-  props: ['questions', 'authuser', 'signedin'],
+  store,
+  props: ['questions'],
   data () {
     return {
       showAll: true,
@@ -402,6 +405,9 @@ export default {
     if (this.$route.params.id) {
       this.getDetail(this.$route.params.id)
     }
+  },
+  computed: {
+    ...mapState(['signedIn', 'authUser'])
   }
 }
 </script>

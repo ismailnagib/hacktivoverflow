@@ -25,9 +25,11 @@
 
 <script>
 import axios from 'axios'
+import store from '@/store'
 
 export default {
   name: 'signform',
+  store,
   data () {
     return {
       signedIn: false,
@@ -76,8 +78,8 @@ export default {
           .then(data => {
             localStorage.setItem('token', data.data.token)
             this.signedIn = true
-            this.$emit('usi', true)
-            this.$emit('uau', data.data.userId)
+            this.$store.commit('mutateSignedIn', true)
+            this.$store.commit('mutate', data.data.userId)
             this.signModal()
           })
           .catch(err => {
@@ -114,8 +116,8 @@ export default {
     signout () {
       localStorage.clear()
       this.signedIn = false
-      this.$emit('usi', false)
-      this.$emit('uau', null)
+      this.$store.commit('mutateSignedIn', false)
+      this.$store.commit('mutateAuthUser', null)
     },
     checkSignedIn () {
       axios({
@@ -127,13 +129,13 @@ export default {
       })
         .then(data => {
           this.signedIn = true
-          this.$emit('usi', true)
-          this.$emit('uau', data.data.userId)
+          this.$store.commit('mutateSignedIn', true)
+          this.$store.commit('mutateAuthUser', data.data.userId)
         })
         // eslint-disable-next-line
         .catch(err => {
           this.signedIn = false
-          this.$emit('usi', false)
+          this.$store.commit('mutateSignedIn', false)
         })
     }
   },

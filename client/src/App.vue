@@ -3,10 +3,10 @@
     <div id="nav">
       <div id='navlinks'>
         <router-link to="/">HACK<b>OVER</b></router-link>
-        <signform @usi='updateSignedIn' @uau='updateAuthUser'></signform>
+        <signform></signform>
       </div>
     </div>
-    <router-view :signedin='signedIn' :authuser='authUser'/>
+    <router-view/>
   </div>
 </template>
 
@@ -15,22 +15,8 @@ import signform from '@/components/signForm.vue'
 
 export default {
   name: 'app',
-  data () {
-    return {
-      signedIn: false,
-      authUser: null
-    }
-  },
   components: {
     signform
-  },
-  methods: {
-    updateSignedIn (value) {
-      this.signedIn = value
-    },
-    updateAuthUser (value) {
-      this.authUser = value
-    }
   }
 }
 </script>

@@ -2,14 +2,14 @@
   <div id='questionlist'>
     <button id='searchBtn' disabled><i class="fas fa-search"></i></button>
     <input id='searchInput' placeholder='Search' onfocus="this.placeholder = ''" onblur="this.placeholder = 'Search'" @keyup='search' v-model='keyword'>
-    <button id='addBtn' v-if='signedin' @click='addModal'>+ New Question</button>
+    <button id='addBtn' v-if='signedIn' @click='addModal'>+ New Question</button>
     <div id='menu' class="border-bottom mb-4 pb-4">
       <div id='menuLink' class="border-bottom pb-2 text-center">
-        <button v-if='keyword.length === 0 && menuIndex === 1 && signedin' class="mr-2" @click='menuChange(0)' title="All Questions"><i class="fas fa-caret-left"></i></button>
-        <button v-else-if='keyword.length === 0 && signedin' disabled class="mr-2" @click='menuChange(0)'><i class="fas fa-caret-left"></i></button>
+        <button v-if='keyword.length === 0 && menuIndex === 1 && signedIn' class="mr-2" @click='menuChange(0)' title="All Questions"><i class="fas fa-caret-left"></i></button>
+        <button v-else-if='keyword.length === 0 && signedIn' disabled class="mr-2" @click='menuChange(0)'><i class="fas fa-caret-left"></i></button>
         <router-link to='/' v-if='keyword.length === 0'>{{ menu[menuIndex] }}</router-link>
-        <button v-if='keyword.length === 0 && menuIndex === 0 && signedin' class="ml-2" @click='menuChange(1)' title="My Questions"><i class="fas fa-caret-right"></i></button>
-        <button v-else-if='keyword.length === 0 && signedin' disabled class="ml-2" @click='menuChange(1)'><i class="fas fa-caret-right"></i></button>
+        <button v-if='keyword.length === 0 && menuIndex === 0 && signedIn' class="ml-2" @click='menuChange(1)' title="My Questions"><i class="fas fa-caret-right"></i></button>
+        <button v-else-if='keyword.length === 0 && signedIn' disabled class="ml-2" @click='menuChange(1)'><i class="fas fa-caret-right"></i></button>
         <div v-if='keyword.length !== 0'>Search Result</div>
       </div><br>
       <div id="questionLink" >
@@ -33,10 +33,12 @@
 
 <script>
 import axios from 'axios'
+import store from '@/store'
+import { mapState } from 'vuex'
 
 export default {
   name: 'questionlist',
-  props: ['signedin', 'reload'],
+  store,
   data () {
     return {
       questions: [],
@@ -163,6 +165,9 @@ export default {
   },
   created () {
     this.getQuestions()
+  },
+  computed: {
+    ...mapState(['signedIn'])
   }
 }
 </script>

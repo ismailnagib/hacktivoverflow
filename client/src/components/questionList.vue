@@ -82,7 +82,7 @@ export default {
           if (this.menuIndex === 0) {
             this.getQuestions()
           } else {
-            this.getMyQuestions
+            this.getMyQuestions()
           }
         })
         .catch(err => {

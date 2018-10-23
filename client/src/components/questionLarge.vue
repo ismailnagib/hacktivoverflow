@@ -173,7 +173,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['getQuestions']),
+    ...mapActions(['getQuestions', 'getMyQuestions']),
     getDetail (id) {
       axios({
         url: `http://localhost:3000/questions/${id}`
@@ -224,7 +224,11 @@ export default {
       })
         .then(() => {
           this.editModal()
-          this.getQuestions()
+          if (this.menuIndex === 0) {
+            this.getQuestions()
+          } else {
+            this.getMyQuestions()
+          }
           if (this.$route.params.id) {
             this.getDetail(this.$route.params.id)
           }
@@ -407,7 +411,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(['signedIn', 'authUser', 'questions'])
+    ...mapState(['signedIn', 'authUser', 'questions', 'menuIndex'])
   }
 }
 </script>

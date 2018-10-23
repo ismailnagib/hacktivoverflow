@@ -8,7 +8,8 @@ export default new Vuex.Store({
   state: {
     signedIn: false,
     authUser: null,
-    questions: []
+    questions: [],
+    menuIndex: 0
   },
   mutations: {
     mutateSignedIn (state, value) {
@@ -19,6 +20,9 @@ export default new Vuex.Store({
     },
     mutateQuestions (state, value) {
       state.questions = value
+    },
+    mutateMenuIndex (state, value) {
+      state.menuIndex = value
     }
   },
   actions: {

@@ -34,7 +34,7 @@
 <script>
 import axios from 'axios'
 import store from '@/store'
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapActions, mapMutations } from 'vuex'
 
 export default {
   name: 'questionlist',
@@ -50,14 +50,13 @@ export default {
       savedUrl: '',
       isSearching: false,
       menu: ['All Questions', 'My Questions'],
-      menuIndex: 0
     }
   },
   methods: {
-    ...mapActions(['getQuestions', 'getMyQuestions', 'searchAction']),    
-    
+    ...mapActions(['getQuestions', 'getMyQuestions', 'searchAction']),
+    ...mapMutations(['mutateMenuIndex']),
     menuChange (index) {
-      this.menuIndex = index
+      this.mutateMenuIndex(index)
     },
     addModal () {
       this.openAddModal = !this.openAddModal
@@ -126,7 +125,7 @@ export default {
     this.getQuestions()
   },
   computed: {
-    ...mapState(['signedIn', 'questions']),
+    ...mapState(['signedIn', 'questions', 'menuIndex']),
   }
 }
 </script>

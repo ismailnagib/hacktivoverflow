@@ -2,7 +2,7 @@
   <div id="app">
     <div id="nav">
       <div id='navlinks'>
-        <router-link to="/">HACK<b>OVER</b></router-link>
+        <router-link to="/">HACKER<b>FLOW</b></router-link>
         <signform></signform>
       </div>
     </div>

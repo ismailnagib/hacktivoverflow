@@ -14,7 +14,6 @@
       <input class='mx-2' v-model='password' type="password" placeholder="Password" @keyup.enter="onEnter"><br>
       <div id='signBtn'>
         <button @click='signin()' :class="{ active: !isSigningUp }"><strong>Sign In</strong></button>
-        <!-- <span class="unselectable"> | </span> -->
         <button @click='signup()' :class="{ active: isSigningUp }" ><strong>Sign Up</strong></button>
       </div>
       <div v-if="notice.length > 0" class='unselectable mt-4 mb-4' style="padding: 0 10%" id='notice'><b>{{ notice }}</b></div>

@@ -13,8 +13,7 @@
         </div>
         <router-link :to="{name: 'detail', params: {id: question._id}}">
           <div class="card-body all-body">
-            <h5 class="card-title border-bottom mb-4 pb-2"><strong>{{ question.title }}</strong></h5>
-            <p class="card-text" v-html='contentSlice(question.content)'></p>
+            <h5 class="card-title pb-2"><strong>{{ question.title }}</strong></h5>
           </div>
         </router-link>
       </div>
@@ -284,17 +283,6 @@ export default {
         .catch(err => {
           console.log(err)
         })
-    },
-    contentSlice (value) {
-      if (value.length > 280) {
-        if (value[279] === ' ') {
-          return value.slice(0, 280) + '. . .'
-        } else {
-          return value.slice(0, 280) + ' . . .'
-        }
-      } else {
-        return value
-      }
     }
   },
   watch: {

@@ -3,8 +3,8 @@ const Schema = mongoose.Schema
 
 const answerSchema = new Schema({
     words: {
-        type: String,
-        required: true
+      type: String,
+      required: true
     },
     answerer: {
       type: Schema.Types.ObjectId,
@@ -20,7 +20,13 @@ const answerSchema = new Schema({
     answers: [{
       type: Schema.Types.ObjectId,
       ref: 'Answer'
-    }]
+    }],
+    upvote: Array,
+    downvote: Array,
+    vote: {
+      type: Number,
+      default: 0
+    }
 }, {
   timestamps: true
 });

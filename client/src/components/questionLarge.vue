@@ -247,7 +247,11 @@ export default {
       })
         .then(() => {
           this.deleteModal()
-          this.getQuestions()
+          if (this.menuIndex === 0) {
+            this.getQuestions()
+          } else {
+            this.getMyQuestions()
+          }
           this.$router.push('/')
         })
         .catch(err => {

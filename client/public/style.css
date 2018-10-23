@@ -42,7 +42,8 @@ body {
 }
 #nav a {
   text-decoration: none;
-  font-weight: bold;
+  font-weight: normal !important;
+  letter-spacing: 10px;
   color: #42b983;
   font-size: 50px;
   font-family: "Roboto", sans-serif;
@@ -198,17 +199,6 @@ a:hover {
   opacity: 0.5;
 }
 
-.img-overlay {
-  height: 250px;
-  margin-top: -250px;
-  opacity: 0;
-  transition: 0.5s ease;
-  background-color: #42b983;
-}
-.img-overlay:hover {
-  opacity: 0.5;
-}
-
 .card-body {
   font-family: "Roboto", sans-serif;
 }
@@ -227,7 +217,7 @@ a:hover {
   height: 50px;
   width: 100%;
   font-size: 20px;
-  padding: 15px 20px;
+  padding: 12px 20px;
   margin-bottom: 30px;
   border-radius: 25px;
   background: #42b983;
@@ -239,7 +229,7 @@ a:hover {
   background: white;
   color: #42b983;
   border: 3px solid #42b983;
-  padding: 12px 17px;
+  padding: 9px 17px;
 }
 #addBtn:focus {
   outline: none;
@@ -276,8 +266,7 @@ a:hover {
   padding-bottom: 10px;
   max-height: 70%;
   overflow: auto;
-  top: 5%;
-  max-height: 95%;
+  max-height: 70%;
 }
 #addModal input {
   border: none;
@@ -309,7 +298,7 @@ a:hover {
   border: transparent;
   height: 45px;
   font-size: 20px;
-  padding: 10px 30px 15px 30px;
+  padding: 9px 30px 15px 30px;
   margin: 20px;
   border-radius: 22.5px;
   background: #42b983;
@@ -321,7 +310,7 @@ a:hover {
   background: white;
   color: #42b983;
   border: 3px solid #42b983;
-  padding: 7px 27px 12px 27px;
+  padding: 6px 27px 12px 27px;
 }
 #addModal button:focus {
   outline: none;
@@ -369,7 +358,7 @@ a:hover {
   border: transparent;
   height: 45px;
   font-size: 20px;
-  padding: 10px 30px 15px 30px;
+  padding: 9px 30px 15px 30px;
   margin: 20px;
   border-radius: 22.5px;
   background: #42b983;
@@ -381,7 +370,7 @@ a:hover {
   background: white;
   color: #42b983;
   border: 3px solid #42b983;
-  padding: 7px 27px 12px 27px;
+  padding: 6px 27px 12px 27px;
 }
 #editModal button:focus {
   outline: none;
@@ -403,7 +392,7 @@ a:hover {
   border: transparent;
   height: 45px;
   font-size: 20px;
-  padding: 10px 30px 15px 30px;
+  padding: 9px 30px 15px 30px;
   margin: 20px;
   border-radius: 22.5px;
   background: #42b983;
@@ -415,7 +404,7 @@ a:hover {
   background: white;
   color: #42b983;
   border: 3px solid #42b983;
-  padding: 7px 27px 12px 27px;
+  padding: 6px 27px 12px 27px;
 }
 #deleteModal button:focus {
   outline: none;
@@ -432,7 +421,7 @@ a:hover {
   font-family: "Roboto", sans-serif;
 }
 
-#delComModal {
+#delAnsModal {
   position: fixed;
   width: 50%;
   top: 15%;
@@ -444,11 +433,11 @@ a:hover {
   max-height: 70%;
   overflow: auto;
 }
-#delComModal button {
+#delAnsModal button {
   border: transparent;
   height: 45px;
   font-size: 20px;
-  padding: 10px 30px 15px 30px;
+  padding: 9px 30px 15px 30px;
   margin: 20px;
   border-radius: 22.5px;
   background: #42b983;
@@ -456,32 +445,32 @@ a:hover {
   cursor: pointer;
   font-family: "Roboto", sans-serif;
 }
-#delComModal button:hover {
+#delAnsModal button:hover {
   background: white;
   color: #42b983;
   border: 3px solid #42b983;
-  padding: 7px 27px 12px 27px;
+  padding: 6px 27px 12px 27px;
 }
-#delComModal button:focus {
+#delAnsModal button:focus {
   outline: none;
 }
-#delComModal h2 {
+#delAnsModal h2 {
   font-family: "Roboto", sans-serif;
   font-size: 40px;
 }
-#delComModal h2 span {
+#delAnsModal h2 span {
   font-family: "Cambria", sans-serif;
   font-size: 45px;
 }
-#delComModal h5 {
+#delAnsModal h5 {
   font-family: "Roboto", sans-serif;
 }
 
-#comment button {
+#answer button {
   border: transparent;
   height: 45px;
   font-size: 20px;
-  padding: 10px 30px 15px 30px;
+  padding: 9px 30px 15px 30px;
   margin: 20px;
   border-radius: 22.5px;
   background: #42b983;
@@ -489,21 +478,21 @@ a:hover {
   cursor: pointer;
   font-family: "Roboto", sans-serif;
 }
-#comment button:hover {
+#answer button:hover {
   background: white;
   color: #42b983;
   border: 3px solid #42b983;
-  padding: 7px 27px 12px 27px;
+  padding: 6px 27px 12px 27px;
 }
-#comment button:focus {
+#answer button:focus {
   outline: none;
 }
-#comment wysiwyg {
+#answer wysiwyg {
   width: 100%;
   padding: 10px 15px;
   font-size: 16px;
 }
-#comment wysiwyg:focus {
+#answer wysiwyg:focus {
   outline: 2px solid #42b983;
 }
 
@@ -549,13 +538,13 @@ a:hover {
   outline: none;
 }
 
-.comments {
+.answers {
   margin: 0;
   margin-bottom: 100px;
   padding: 0;
 }
 
-.commenter {
+.answerer {
   font-size: 14px;
   margin-bottom: 10px;
 }
@@ -593,6 +582,10 @@ a:hover {
   outline: none;
 }
 
+.all-body {
+  margin-top: 20px
+}
+
 .detail-body {
   margin-bottom: 50px;
 }
@@ -603,7 +596,11 @@ a:hover {
   font-weight: 400 !important;
 }
 
-.comDelBtn {
+.detail-body .card-title {
+  margin-top: 20px;
+}
+
+.ansDelBtn {
   background: transparent;
   border: none;
   border-radius: 10px;
@@ -612,10 +609,10 @@ a:hover {
   padding: 5px 10px;
   margin: 5px 2.5px;
 }
-.comDelBtn:hover {
+.ansDelBtn:hover {
   background: rgba(0, 0, 0, 0.075);
 }
-.comDelBtn:focus {
+.ansDelBtn:focus {
   outline: none;
 }
 

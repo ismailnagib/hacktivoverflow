@@ -21,26 +21,8 @@
     <!-- ADD MODAL -->
     <div id='addModal' v-if='openAddModal'>
       <button @click='addModal' class="float-right" style="margin: -25px -25px 0 0; padding: 0; border: 0; background: transparent; color: #42b983"><i class="far fa-times-circle"></i></button>
-      <h6>You can upload an image here if you want to (<b>max. 3 MB</b>)</h6>
-      <input type="file" accept="image/png, image/jpeg" @change='imgChange' style='width: auto; font-size: 14px; border: 2px solid #42b983'><br>
       <input type="text" v-model='title' placeholder="Title"><br>
       <wysiwyg v-model='content' style="height: 200px; overflow: auto" class="text-left"></wysiwyg><br>
-      <div class='userloc border-top border-bottom'>
-        <div v-if='!shareLoc'>
-          <h6 v-if='detectedLoc'>We've detected that you're writing this from</h6>
-          <h6 v-else class="placeholder">placeholder</h6>
-          <input class="my-1" id='userLocInput' v-model='userLoc' @keyup='detectedLoc = false' :style="{ width: ((userLoc.length + 1) * 30) + 'px', 'max-width': '80%' }"><br>
-          <div style="font-size: 12px">( <b>Hint:</b> You can change the location manually )</div><br>
-          <button id='userLocBtn' v-on:click='shareLocToggle()'>Share that as my location in the question</button>
-        </div>
-        <div v-else>
-          <i class="fas fa-check-circle"></i>
-          <h4 class="mt-3 mb-2">{{ userLoc }}</h4>
-          <h6 class="mb-3">will be shared as your location in the question</h6>
-          <button id='userLocBtn' v-on:click='shareLocToggle()'>Cancel location sharing</button>
-        </div>
-      </div>
-      <br>
       <div v-if='notice.length > 0' style='color: #42b983'>{{ notice }}</div>
       <div v-else class="placeholder">placeholder</div>
       <button @click='addModal'>Maybe Later</button>
@@ -62,14 +44,10 @@ export default {
       openAddModal: false,
       title: '',
       content: '',
-      image: '',
       notice: '',
       keyword: '',
       savedUrl: '',
       isSearching: false,
-      userLoc: '',
-      detectedLoc: false,
-      shareLoc: false,
       menu: ['All Questions', 'My Questions'],
       menuIndex: 0
     }
@@ -77,7 +55,7 @@ export default {
   methods: {
     getQuestions () {
       axios({
-        url: 'http://localhost:3000/articles'
+        url: 'http://localhost:3000/questions'
       })
         .then(data => {
           this.questions = data.data.data
@@ -89,7 +67,7 @@ export default {
     },
     getMyQuestions () {
       axios({
-        url: 'http://localhost:3000/articles/self',
+        url: 'http://localhost:3000/questions/self',
         headers: {
           token: localStorage.getItem('token')
         }
@@ -106,84 +84,31 @@ export default {
       this.menuIndex = index
     },
     addModal () {
-      if (!this.openAddModal) {
-        this.detectLoc()
-      }
       this.openAddModal = !this.openAddModal
       this.openListBackdrop = !this.openListBackdrop
       this.notice = ''
     },
     addQuestion () {
-      let loc = ''
-      if (this.shareLoc) {
-        loc = this.userLoc
-      }
-
-      if (this.image !== '') {
-        let formData = new FormData()
-        formData.append('image', this.image)
-
-        axios({
-          url: 'http://localhost:3000/upload',
-          method: 'post',
-          data: formData,
-          headers: {
-            'Content-Type': 'multipart/form-data',
-            token: localStorage.getItem('token')
-          }
+      axios({
+        url: 'http://localhost:3000/questions',
+        method: 'post',
+        headers: {
+          token: localStorage.getItem('token')
+        },
+        data: {
+          title: this.title,
+          content: this.content
+        }
+      })
+        .then(() => {
+          this.addModal()
+          this.getQuestions()
+          this.title = ''
+          this.content = ''
         })
-          .then(image => {
-            axios({
-              url: 'http://localhost:3000/articles',
-              method: 'post',
-              headers: {
-                token: localStorage.getItem('token')
-              },
-              data: {
-                title: this.title,
-                content: this.content,
-                loc: loc,
-                image: image.data.link
-              }
-            })
-              .then(() => {
-                this.addModal()
-                this.getQuestions()
-                this.title = ''
-                this.content = ''
-                this.image = ''
-              })
-              .catch(err => {
-                this.notice = err.response.data.message
-              })
-          })
-          // eslint-disable-next-line
-          .catch(err => {
-            this.notice = 'Sorry, but the image file is too large'
-          })
-      } else {
-        axios({
-          url: 'http://localhost:3000/articles',
-          method: 'post',
-          headers: {
-            token: localStorage.getItem('token')
-          },
-          data: {
-            title: this.title,
-            content: this.content,
-            loc: loc
-          }
+        .catch(err => {
+          this.notice = err.response.data.message
         })
-          .then(() => {
-            this.addModal()
-            this.getQuestions()
-            this.title = ''
-            this.content = ''
-          })
-          .catch(err => {
-            this.notice = err.response.data.message
-          })
-      }
     },
     search () {
       if (this.keyword.length === 1) {
@@ -209,7 +134,7 @@ export default {
         }
       } else {
         axios({
-          url: `http://localhost:3000/articles/search?keyword=${this.keyword}`
+          url: `http://localhost:3000/questions/search?keyword=${this.keyword}`
         })
           .then(data => {
             this.questions = data.data.data
@@ -219,24 +144,6 @@ export default {
             console.log(err)
           })
       }
-    },
-    shareLocToggle () {
-      this.shareLoc = !this.shareLoc
-    },
-    detectLoc () {
-      axios({
-        url: 'https://api.ipgeolocation.io/ipgeo?apiKey=09a9b19f92b24659af94da487a5ae169'
-      })
-        .then(data => {
-          this.userLoc = `${data.data.state_prov}, ${data.data.country_name}`
-          this.detectedLoc = true
-        })
-        .catch(err => {
-          console.log(err)
-        })
-    },
-    imgChange (event) {
-      this.image = event.target.files[0]
     }
   },
   watch: {

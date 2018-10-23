@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { show, add, addS, remove } = require('../controllers/commentController')
+const { show, add, addS, remove } = require('../controllers/answerController')
 const isLogin = require('../middlewares/isLogin')
 
 router.get('/', show)

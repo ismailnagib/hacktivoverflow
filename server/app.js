@@ -10,7 +10,7 @@ var app = express();
 
 var questionsRouter = require('./routes/questions')
 var usersRouter = require('./routes/users')
-var commentsRouter = require('./routes/comments')
+var answersRouter = require('./routes/answers')
 var uploadRouter = require('./routes/upload');
 
 app.use(cors());
@@ -26,7 +26,7 @@ if (process.env.STATUS === 'test') {
 
 app.use('/questions', questionsRouter)
 app.use('/users', usersRouter)
-app.use('/comments', commentsRouter)
+app.use('/answers', answersRouter)
 app.use('/upload', uploadRouter);
 
 // // catch 404 and forward to error handler

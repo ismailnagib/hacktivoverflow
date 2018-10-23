@@ -15,9 +15,9 @@ const questionSchema = new Schema({
       ref: 'User',
       required: true
     },
-    comments: [{
+    answers: [{
       type: Schema.Types.ObjectId,
-      ref: 'Comment',
+      ref: 'Answer',
     }]
 }, {
   timestamps: true

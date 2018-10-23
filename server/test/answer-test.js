@@ -3,38 +3,38 @@ process.env.STATUS = 'test'
 var chai = require('chai');
 var chaiHttp = require('chai-http');
 var expect = chai.expect;
-var Comment = require('../models/commentModel')
+var Answer = require('../models/answerModel')
 const Question = require('../models/questionModel')
 const User = require('../models/userModel')
 var app = require('../app')
 
 chai.use(chaiHttp);
 
-describe('Comment', function () {
+describe('Answer', function () {
     
     let token = ''
-    let commenter = ''
+    let answerer = ''
     let questionId = ''
-    let commentId = ''
-    let commentId2 = ''
+    let answerId = ''
+    let answerId2 = ''
 
     this.beforeAll('Add dummy user & question to DB', function (done) {
         chai
         .request(app)
         .post('/users/register')
         .send({
-            name: 'Commenter',
-            email: 'commenter@question.com',
+            name: 'Answerer',
+            email: 'answerer@question.com',
             password: 'password'
         })
         .end((err, res) => {
-            commenter = res.body.data._id
+            answerer = res.body.data._id
 
             chai
             .request(app)
             .post('/users/login')
             .send({
-                email: 'commenter@question.com',
+                email: 'answerer@question.com',
                 password: 'password'
             })
             .end((err, res2) => {
@@ -47,7 +47,7 @@ describe('Comment', function () {
                     token: token
                 })
                 .send({
-                    title: 'Comment Test',
+                    title: 'Answer Test',
                     content: 'Lorem ipsum'
                 })
                 .end((err, res3) => {
@@ -59,16 +59,16 @@ describe('Comment', function () {
     })
 
     this.afterAll('Remove dummy data from DB', function (done) {
-        Comment.deleteMany({
-            words: 'Comment Test',
+        Answer.deleteMany({
+            words: 'Answer Test',
         })
         .then(() => {
             Question.deleteOne({
-                title: 'Comment Test'
+                title: 'Answer Test'
             })
             .then(() => {
                 User.deleteOne({
-                    email: 'commenter@question.com'
+                    email: 'answerer@question.com'
                 })
                 .then(() => {
                     done()
@@ -77,17 +77,17 @@ describe('Comment', function () {
         })
     })
 
-    describe('POST /comments/', function () {
+    describe('POST /answers/', function () {
 
         describe('=====> no / invalid token', function () {
             
             it('no token | should return error 500', function(done) {
                 chai
                 .request(app)
-                .post('/comments/')
+                .post('/answers/')
                 .send({
-                    words: 'Comment Test',
-                    postId: questionId,
+                    words: 'Answer Test',
+                    questionId: questionId,
                 })
                 .end((err, res) => {
                     expect(res).to.have.status(500)
@@ -98,13 +98,13 @@ describe('Comment', function () {
             it('invalid token | should return error 500', function(done) {
                 chai
                 .request(app)
-                .post('/comments/')
+                .post('/answers/')
                 .set({
                     token: 'invalid'
                 })
                 .send({
-                    words: 'Comment Test',
-                    postId: questionId,
+                    words: 'Answer Test',
+                    questionId: questionId,
                 })
                 .end((err, res) => {
                     expect(res).to.have.status(500)
@@ -115,40 +115,40 @@ describe('Comment', function () {
 
         describe('=====> valid token', function () {
             
-            it('valid input | should save a new comment', function(done) {
+            it('valid input | should save a new answer', function(done) {
                 chai
                 .request(app)
-                .post('/comments/')
+                .post('/answers/')
                 .set({
                     token: token
                 })
                 .send({
-                    words: 'Comment Test',
-                    postId: questionId,
+                    words: 'Answer Test',
+                    questionId: questionId,
                 })
                 .end((err, res) => {
                     expect(res).to.have.status(201)
                     expect(res.body.data).to.have.property('words')
-                    expect(res.body.data).to.have.property('commenter')
+                    expect(res.body.data).to.have.property('answerer')
                     expect(res.body.data).to.have.property('level')
-                    expect(res.body.data.words).to.equal('Comment Test')
-                    expect(res.body.data.commenter).to.equal(commenter)
+                    expect(res.body.data.words).to.equal('Answer Test')
+                    expect(res.body.data.answerer).to.equal(answerer)
                     expect(res.body.data.level).to.equal(1)
-                    commentId = res.body.data._id
+                    answerId = res.body.data._id
                     done()
                 })
             })
 
-            it('no postId | should return error 500', function(done) {
+            it('no questionId | should return error 500', function(done) {
                 chai
                 .request(app)
-                .post('/comments/')
+                .post('/answers/')
                 .set({
                     token: token
                 })
                 .send({
                     words: '',
-                    postId: '',
+                    questionId: '',
                 })
                 .end((err, res) => {
                     expect(res).to.have.status(500)
@@ -161,34 +161,34 @@ describe('Comment', function () {
             it('no words | should return error 500', function(done) {
                 chai
                 .request(app)
-                .post('/comments/')
+                .post('/answers/')
                 .set({
                     token: token
                 })
                 .send({
                     words: '',
-                    postId: questionId,
+                    questionId: questionId,
                 })
                 .end((err, res) => {
                     expect(res).to.have.status(500)
                     expect(res.body).to.have.property('message')
-                    expect(res.body.message).to.equal('A comment has to have a content')
+                    expect(res.body.message).to.equal('An answer has to have a content')
                     done()
                 })
             })
 
             
 
-            it('no postId & no words | should return error 500', function(done) {
+            it('no questionId & no words | should return error 500', function(done) {
                 chai
                 .request(app)
-                .post('/comments/')
+                .post('/answers/')
                 .set({
                     token: token
                 })
                 .send({
                     words: '',
-                    postId: '',
+                    questionId: '',
                 })
                 .end((err, res) => {
                     expect(res).to.have.status(500)
@@ -200,17 +200,17 @@ describe('Comment', function () {
         })
     })
 
-    describe('POST /comments/stack', function () {
+    describe('POST /answers/stack', function () {
 
         describe('=====> no / invalid token', function () {
 
             it('no token | should return error 500', function (done) {
                 chai
                 .request(app)
-                .post('/comments/stack')
+                .post('/answers/stack')
                 .send({
-                    words: 'Comment Test',
-                    commentId: commentId,
+                    words: 'Answer Test',
+                    answerId: answerId,
                 })
                 .end((err, res) => {
                     expect(res).to.have.status(500)
@@ -221,13 +221,13 @@ describe('Comment', function () {
             it('invalid token | should return error 500', function (done) {
                 chai
                 .request(app)
-                .post('/comments/stack')
+                .post('/answers/stack')
                 .set({
                     token: 'invalid'
                 })
                 .send({
-                    words: 'Comment Test',
-                    commentId: commentId,
+                    words: 'Answer Test',
+                    answerId: answerId,
                 })
                 .end((err, res) => {
                     expect(res).to.have.status(500)
@@ -238,59 +238,59 @@ describe('Comment', function () {
 
         describe('=====> valid token', function () {
             
-            it('valid input | level 2 comment on a level 1 comment | should save a level 2 comment', function (done) {
+            it('valid input | level 2 answer on a level 1 answer | should save a level 2 answer', function (done) {
                 chai
                 .request(app)
-                .post('/comments/stack')
+                .post('/answers/stack')
                 .set({
                     token: token
                 })
                 .send({
-                    words: 'Comment Test',
-                    commentId: commentId,
+                    words: 'Answer Test',
+                    answerId: answerId,
                 })
                 .end((err, res) => {
                     expect(res).to.have.status(201)
                     expect(res.body.data).to.have.property('words')
-                    expect(res.body.data).to.have.property('commenter')
+                    expect(res.body.data).to.have.property('answerer')
                     expect(res.body.data).to.have.property('level')
-                    expect(res.body.data.words).to.equal('Comment Test')
-                    expect(res.body.data.commenter).to.equal(commenter)
+                    expect(res.body.data.words).to.equal('Answer Test')
+                    expect(res.body.data.answerer).to.equal(answerer)
                     expect(res.body.data.level).to.equal(2)
-                    commentId2 = res.body.data._id
+                    answerId2 = res.body.data._id
                     done()
                 })
             })
     
-            it('valid input | level 2 comment on a level 2 comment | should return error 500', function (done) {
+            it('valid input | level 2 answer on a level 2 answer | should return error 500', function (done) {
                 chai
                 .request(app)
-                .post('/comments/stack')
+                .post('/answers/stack')
                 .set({
                     token: token
                 })
                 .send({
-                    words: 'Comment Test',
-                    commentId: commentId2,
+                    words: 'Answer Test',
+                    answerId: answerId2,
                 })
                 .end((err, res) => {
                     expect(res).to.have.status(500)
                     expect(res.body).to.have.property('message')
-                    expect(res.body.message).to.equal('A comment may only be owned by an question or a level 1 comment')
+                    expect(res.body.message).to.equal('An answer may only be owned by a question or a level 1 answer')
                     done()
                 })
             })
     
-            it('no commentId | should return error 500', function (done) {
+            it('no answerId | should return error 500', function (done) {
                 chai
                 .request(app)
-                .post('/comments/stack')
+                .post('/answers/stack')
                 .set({
                     token: token
                 })
                 .send({
-                    words: 'Comment Test',
-                    commentId: '',
+                    words: 'Answer Test',
+                    answerId: '',
                 })
                 .end((err, res) => {
                     expect(res).to.have.status(500)
@@ -303,13 +303,13 @@ describe('Comment', function () {
             it('no words | should return error 500', function (done) {
                 chai
                 .request(app)
-                .post('/comments/stack')
+                .post('/answers/stack')
                 .set({
                     token: token
                 })
                 .send({
                     words: '',
-                    commentId: commentId,
+                    answerId: answerId,
                 })
                 .end((err, res) => {
                     expect(res).to.have.status(500)
@@ -319,16 +319,16 @@ describe('Comment', function () {
                 })
             })
     
-            it('no commentId & no words | should return error 500', function (done) {
+            it('no answerId & no words | should return error 500', function (done) {
                 chai
                 .request(app)
-                .post('/comments/stack')
+                .post('/answers/stack')
                 .set({
                     token: token
                 })
                 .send({
                     words: '',
-                    commentId: '',
+                    answerId: '',
                 })
                 .end((err, res) => {
                     expect(res).to.have.status(500)
@@ -340,21 +340,21 @@ describe('Comment', function () {
         })
     })
 
-    describe('DELETE /comments/', function () {
+    describe('DELETE /answers/', function () {
 
         describe('=====> no / invalid token', function () {
             
             it('no token | should return error 500', function(done) {
                 chai
                 .request(app)
-                .delete(`/comments/${commentId}`)
+                .delete(`/answers/${answerId}`)
                 .end((err, res) => {
                     expect(res).to.have.status(500)
                     
                     // THIS ONE BELOW IS TO CHECK IF THE COMMENT IS NOT DELETED
                     chai
                     .request(app)
-                    .get('/comments/')
+                    .get('/answers/')
                     .end((err, res) => {
                         expect(res).to.have.status(200)
                         expect(res.body.data).to.be.a('array')
@@ -368,7 +368,7 @@ describe('Comment', function () {
             it('invalid token | should return error 500', function(done) {
                 chai
                 .request(app)
-                .delete(`/comments/${commentId}`)
+                .delete(`/answers/${answerId}`)
                 .set({
                     token: 'invalid'
                 })
@@ -378,7 +378,7 @@ describe('Comment', function () {
                     // THIS ONE BELOW IS TO CHECK IF THE COMMENT IS NOT DELETED
                     chai
                     .request(app)
-                    .get('/comments/')
+                    .get('/answers/')
                     .end((err, res) => {
                         expect(res).to.have.status(200)
                         expect(res.body.data).to.be.a('array')
@@ -391,29 +391,29 @@ describe('Comment', function () {
 
         describe('=====> valid token', function () {
 
-            let commentId3 = ''
+            let answerId3 = ''
             
-            this.beforeAll('Add one more level 2 comment', function(done) {
+            this.beforeAll('Add one more level 2 answer', function(done) {
                 chai
                 .request(app)
-                .post('/comments/stack')
+                .post('/answers/stack')
                 .set({
                     token: token
                 })
                 .send({
-                    words: 'Comment Test',
-                    commentId: commentId,
+                    words: 'Answer Test',
+                    answerId: answerId,
                 })
                 .end((err, res) => {
-                    commentId3 = res.body.data._id
+                    answerId3 = res.body.data._id
                     done()
                 })
             })
 
-            it('delete level 2 comment | should only delete the level 2 comment', function(done) {
+            it('delete level 2 answer | should only delete the level 2 answer', function(done) {
                 chai
                 .request(app)
-                .delete(`/comments/${commentId3}`)
+                .delete(`/answers/${answerId3}`)
                 .set({
                     token: token
                 })
@@ -423,7 +423,7 @@ describe('Comment', function () {
                     // THIS ONE BELOW IS TO CHECK IF THE COMMENT IS DELETED
                     chai
                     .request(app)
-                    .get('/comments/')
+                    .get('/answers/')
                     .end((err, res) => {
                         expect(res).to.have.status(200)
                         expect(res.body.data).to.be.a('array')
@@ -433,10 +433,10 @@ describe('Comment', function () {
                 })
             })
 
-            it('delete level 1 comment | should delete the level 1 comment and all associated level 2 comments', function(done) {
+            it('delete level 1 answer | should delete the level 1 answer and all associated level 2 answers', function(done) {
                 chai
                 .request(app)
-                .delete(`/comments/${commentId}`)
+                .delete(`/answers/${answerId}`)
                 .set({
                     token: token
                 })
@@ -446,7 +446,7 @@ describe('Comment', function () {
                     // THIS ONE BELOW IS TO CHECK IF THE COMMENT IS DELETED
                     chai
                     .request(app)
-                    .get('/comments/')
+                    .get('/answers/')
                     .end((err, res) => {
                         expect(res).to.have.status(200)
                         expect(res.body.data).to.be.a('array')

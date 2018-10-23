@@ -126,7 +126,7 @@ describe('Question', function () {
                 .end((err, res) => {
                     expect(res).to.have.status(500)
                     expect(res.body).to.have.property('message')
-                    expect(res.body.message).to.equal('An question has to have a title')
+                    expect(res.body.message).to.equal('A question has to have a title')
                     done()
                 })
             });
@@ -145,7 +145,7 @@ describe('Question', function () {
                 .end((err, res) => {
                     expect(res).to.have.status(500)
                     expect(res.body).to.have.property('message')
-                    expect(res.body.message).to.equal('An question has to have a content')
+                    expect(res.body.message).to.equal('A question has to have a content')
                     done()
                 })
             });
@@ -164,7 +164,7 @@ describe('Question', function () {
                 .end((err, res) => {
                     expect(res).to.have.status(500)
                     expect(res.body).to.have.property('message')
-                    expect(res.body.message).to.equal('An question has to have a title and a content')
+                    expect(res.body.message).to.equal('A question has to have a title and a content')
                     done()
                 })
             });
@@ -399,7 +399,7 @@ describe('Question', function () {
                 .end((err, res) => {
                     expect(res).to.have.status(500)
                     expect(res.body).to.have.property('message')
-                    expect(res.body.message).to.equal('An question has to have a title')
+                    expect(res.body.message).to.equal('A question has to have a title')
     
                     // THIS ONE BELOW IS TO CHECK IF THE TITLE IS STILL THE SAME
                     chai
@@ -429,7 +429,7 @@ describe('Question', function () {
                 .end((err, res) => {
                     expect(res).to.have.status(500)
                     expect(res.body).to.have.property('message')
-                    expect(res.body.message).to.equal('An question has to have a content')
+                    expect(res.body.message).to.equal('A question has to have a content')
     
                     // THIS ONE BELOW IS TO CHECK IF THE CONTENT IS STILL THE SAME
                     chai
@@ -459,7 +459,7 @@ describe('Question', function () {
                 .end((err, res) => {
                     expect(res).to.have.status(500)
                     expect(res.body).to.have.property('message')
-                    expect(res.body.message).to.equal('An question has to have a title and a content')
+                    expect(res.body.message).to.equal('A question has to have a title and a content')
     
                     // THIS ONE BELOW IS TO CHECK IF THE TITLE AND THE CONTENT ARE STILL THE SAME
                     chai
@@ -526,8 +526,39 @@ describe('Question', function () {
         })
 
         describe('=====> valid token', function () {
+
+            this.beforeAll('Add an answer to the question and a reply to the answer', function (done) {
+                chai
+                .request(app)
+                .post('/answers/')
+                .set({
+                    token: token
+                })
+                .send({
+                    words: 'An answer',
+                    questionId: id,
+                })
+                .end((err, res) => {
+                    expect(res).to.have.status(201)
+
+                    chai
+                    .request(app)
+                    .post('/answers/stack')
+                    .set({
+                        token: token
+                    })
+                    .send({
+                        words: 'A reply',
+                        answerId: res.body.data._id
+                    })
+                    .end((err, res2) => {
+                        expect(res2).to.have.status(201)
+                        done()
+                    })
+                })
+            })
             
-            it('should delete added question', function(done) {
+            it('should delete added question and all the answers associated with it', function(done) {
                 chai
                 .request(app)
                 .delete(`/questions/${id}`)
@@ -541,10 +572,20 @@ describe('Question', function () {
                     chai
                     .request(app)
                     .get(`/questions/${id}`)
-                    .end((err, res) => {
-                        expect(res).to.have.status(200)
-                        expect(res.body.data).to.equal(null)
-                        done()
+                    .end((err, res2) => {
+                        expect(res2).to.have.status(200)
+                        expect(res2.body.data).to.equal(null)
+
+                        // THIS ONE BELOW IS TO CHECK IF THE ANSWERS ASSOCIATED WITH THE QUESTION ARE DELETED
+                        chai
+                        .request(app)
+                        .get('/answers/')
+                        .end((err, res3) => {
+                            expect(res3).to.have.status(200)
+                            expect(res3.body.data).to.be.a('array')
+                            expect(res3.body.data).to.have.lengthOf(0)
+                            done()
+                        })
                     })
                 })
             })

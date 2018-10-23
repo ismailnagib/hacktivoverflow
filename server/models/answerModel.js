@@ -1,12 +1,12 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
-const commentSchema = new Schema({
+const answerSchema = new Schema({
     words: {
         type: String,
         required: true
     },
-    commenter: {
+    answerer: {
       type: Schema.Types.ObjectId,
       ref: 'User',
       required: true
@@ -17,13 +17,13 @@ const commentSchema = new Schema({
       min: 1,
       max: 2
     },
-    comments: [{
+    answers: [{
       type: Schema.Types.ObjectId,
-      ref: 'Comment'
+      ref: 'Answer'
     }]
 }, {
   timestamps: true
 });
 
-const Comment = mongoose.model('Comment', commentSchema)
-module.exports = Comment
+const Answer = mongoose.model('Answer', answerSchema)
+module.exports = Answer

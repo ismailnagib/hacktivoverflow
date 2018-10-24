@@ -65,7 +65,7 @@ export default {
     },
     addQuestion () {
       axios({
-        url: 'http://localhost:3000/questions',
+        url: 'https://hackerflow-server.ismailnagib.xyz/questions',
         method: 'post',
         headers: {
           token: localStorage.getItem('token')

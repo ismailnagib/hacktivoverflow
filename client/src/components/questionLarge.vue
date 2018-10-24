@@ -190,7 +190,7 @@ export default {
     ...mapActions(['getQuestions', 'getMyQuestions']),
     getDetail (id) {
       axios({
-        url: `http://localhost:3000/questions/${id}`
+        url: `https://hackerflow-server.ismailnagib.xyz/questions/${id}`
       })
         .then(data => {
           this.detail = data.data.data
@@ -226,7 +226,7 @@ export default {
     },
     editQuestion () {
       axios({
-        url: `http://localhost:3000/questions/${this.editId}`,
+        url: `https://hackerflow-server.ismailnagib.xyz/questions/${this.editId}`,
         method: 'put',
         headers: {
           token: localStorage.getItem('token')
@@ -253,7 +253,7 @@ export default {
     },
     deleteQuestion () {
       axios({
-        url: `http://localhost:3000/questions/${this.deleteId}`,
+        url: `https://hackerflow-server.ismailnagib.xyz/questions/${this.deleteId}`,
         method: 'delete',
         headers: {
           token: localStorage.getItem('token')
@@ -274,7 +274,7 @@ export default {
     },
     addAnswer (id) {
       axios({
-        url: 'http://localhost:3000/answers',
+        url: 'https://hackerflow-server.ismailnagib.xyz/answers',
         method: 'post',
         headers: {
           token: localStorage.getItem('token')
@@ -296,7 +296,7 @@ export default {
     },
     replyAnswer (id, index) {
       axios({
-        url: 'http://localhost:3000/answers/stack',
+        url: 'https://hackerflow-server.ismailnagib.xyz/answers/stack',
         method: 'post',
         headers: {
           token: localStorage.getItem('token')
@@ -326,7 +326,7 @@ export default {
     },
     deleteAnswer () {
       axios({
-        url: `http://localhost:3000/answers/${this.delAnsId}`,
+        url: `https://hackerflow-server.ismailnagib.xyz/answers/${this.delAnsId}`,
         method: 'delete',
         headers: {
           token: localStorage.getItem('token')
@@ -350,7 +350,7 @@ export default {
     },
     editAnswer () {
       axios({
-        url: `http://localhost:3000/answers/${this.editAnsId}`,
+        url: `https://hackerflow-server.ismailnagib.xyz/answers/${this.editAnsId}`,
         method: 'put',
         headers: {
           token: localStorage.getItem('token')
@@ -369,7 +369,7 @@ export default {
     },
     qUpvote () {
       axios({
-        url: `http://localhost:3000/questions/upvote`,
+        url: `https://hackerflow-server.ismailnagib.xyz/questions/upvote`,
         method: 'patch',
         headers: {
           token: localStorage.getItem('token')
@@ -387,7 +387,7 @@ export default {
     },
     qDownvote () {
       axios({
-        url: `http://localhost:3000/questions/downvote`,
+        url: `https://hackerflow-server.ismailnagib.xyz/questions/downvote`,
         method: 'patch',
         headers: {
           token: localStorage.getItem('token')
@@ -405,7 +405,7 @@ export default {
     },
     aUpvote (id) {
       axios({
-        url: `http://localhost:3000/answers/upvote`,
+        url: `https://hackerflow-server.ismailnagib.xyz/answers/upvote`,
         method: 'patch',
         headers: {
           token: localStorage.getItem('token')
@@ -423,7 +423,7 @@ export default {
     },
     aDownvote (id) {
       axios({
-        url: `http://localhost:3000/answers/downvote`,
+        url: `https://hackerflow-server.ismailnagib.xyz/answers/downvote`,
         method: 'patch',
         headers: {
           token: localStorage.getItem('token')

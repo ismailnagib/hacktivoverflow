@@ -63,7 +63,7 @@
         let auth2 = gapi.auth2.getAuthInstance()
         auth2.signOut()
         .then(() => {
-          location.create()
+          location.reload()
         })
         .catch(err => {
           console.log(err)

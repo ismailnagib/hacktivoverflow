@@ -32,7 +32,7 @@ export default new Vuex.Store({
   actions: {
     getQuestions (context) {
       axios({
-        url: 'http://localhost:3000/questions'
+        url: 'https://hackerflow-server.ismailnagib.xyz/questions'
       })
         .then(data => {
           context.commit('mutateQuestions', data.data.data)
@@ -43,7 +43,7 @@ export default new Vuex.Store({
     },
     getMyQuestions (context) {
       axios({
-        url: 'http://localhost:3000/questions/self',
+        url: 'https://hackerflow-server.ismailnagib.xyz/questions/self',
         headers: {
           token: localStorage.getItem('token')
         }
@@ -57,7 +57,7 @@ export default new Vuex.Store({
     },
     searchAction (context, keyword) {
       axios({
-        url: `http://localhost:3000/questions/search?keyword=${keyword}`
+        url: `https://hackerflow-server.ismailnagib.xyz/questions/search?keyword=${keyword}`
       })
         .then(data => {
           context.commit('mutateQuestions', data.data.data)

@@ -74,7 +74,7 @@ export default {
         }
       } else {
         axios({
-          url: 'http://localhost:3000/users/login',
+          url: 'https://hackerflow-server.ismailnagib.xyz/users/login',
           method: 'post',
           data: {
             email: this.email,
@@ -100,7 +100,7 @@ export default {
         this.notice = ''
       } else {
         axios({
-          url: 'http://localhost:3000/users/register',
+          url: 'https://hackerflow-server.ismailnagib.xyz/users/register',
           method: 'post',
           data: {
             name: this.name,
@@ -129,7 +129,7 @@ export default {
     },
     checkSignedIn () {
       axios({
-        url: 'http://localhost:3000/users/checklogin',
+        url: 'https://hackerflow-server.ismailnagib.xyz/users/checklogin',
         method: 'post',
         headers: {
           token: localStorage.getItem('token')

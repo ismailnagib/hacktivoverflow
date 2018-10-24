@@ -57,6 +57,7 @@ body {
 
 #signinit {
   font-family: "Roboto", sans-serif;
+  display: flex;
 }
 
 #signBackdrop {
@@ -513,6 +514,40 @@ a:hover {
   font-family: "Roboto", sans-serif;
 }
 
+#editAnsModal {
+  position: fixed;
+  width: 50%;
+  top: 15%;
+  left: 25%;
+  background-color: white;
+  z-index: 11000;
+  padding: 50px;
+  padding-bottom: 10px;
+  max-height: 70%;
+  overflow: auto;
+}
+#editAnsModal button {
+  border: transparent;
+  height: 45px;
+  font-size: 20px;
+  padding: 9px 30px 15px 30px;
+  margin: 20px;
+  border-radius: 22.5px;
+  background: #42b983;
+  color: white;
+  cursor: pointer;
+  font-family: "Roboto", sans-serif;
+}
+#editAnsModal button:hover {
+  background: white;
+  color: #42b983;
+  border: 3px solid #42b983;
+  padding: 6px 27px 12px 27px;
+}
+#editAnsModal button:focus {
+  outline: none;
+}
+
 #answer button {
   border: transparent;
   height: 45px;
@@ -644,7 +679,7 @@ a:hover {
   margin-top: 20px;
 }
 
-.ansDelBtn {
+.ansDelBtn, .ansEditBtn {
   background: transparent;
   border: none;
   border-radius: 10px;
@@ -653,10 +688,10 @@ a:hover {
   padding: 5px 10px;
   margin: 5px 2.5px;
 }
-.ansDelBtn:hover {
+.ansDelBtn:hover, .ansEditBtn:hover {
   background: rgba(0, 0, 0, 0.075);
 }
-.ansDelBtn:focus {
+.ansDelBtn:focus, .ansEditBtn:focus {
   outline: none;
 }
 

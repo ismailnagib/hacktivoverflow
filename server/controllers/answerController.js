@@ -90,6 +90,24 @@ module.exports = {
         }
     },
 
+    edit: function (req, res) {
+        if (!req.body.words || req.body.words.length === 0) {
+            res.status(500).json({message: 'An answer has to have a content'})
+        } else {
+            Answer.updateOne({
+                _id: req.params.id
+            }, {
+                words: req.body.words
+            })
+            .then(() => {
+                res.status(200).json({})
+            })
+            .catch(err => {
+                res.status(500).json({message: err})
+            })
+        }
+    },
+
     remove: function(req, res) {
         Answer.findOne({
             _id: req.params.id,

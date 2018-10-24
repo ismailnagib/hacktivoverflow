@@ -83,6 +83,7 @@
             <h6 v-html="answer.words"></h6>
           </div>
           <div class="col-1" v-if='answer.answerer._id === authUser'>
+            <button class='ansEditBtn' @click='editAnswerModal(answer.words, answer._id)'><i class="far fa-edit"></i></button>
             <button class='ansDelBtn' @click='deleteAnswerModal(answer._id)'><i class="far fa-trash-alt"></i></button>
           </div>
           <div class="col-1" v-else></div>
@@ -133,7 +134,16 @@
         <button @click='deleteModal'>No, sorry, that was a mistake</button>
         <button @click='deleteQuestion'>Yeah, get rid of this shit</button>
       </div>
-      <!-- DELETE COMMENT MODAL -->
+      <!-- EDIT ANSWER MODAL -->
+      <div id='editAnsModal' v-if='openEditAnsModal'>
+        <button @click='editAnswerModal' class="float-right" style="margin: -25px -25px 0 0; padding: 0; border: 0; background: transparent; color: #42b983"><i class="far fa-times-circle"></i></button>
+        <wysiwyg class="text-left" style="height: 100px; overflow: auto" v-model='answerEdit'></wysiwyg>
+        <div v-if='editNotice.length > 0' style='color: #42b983'>{{ editNotice }}</div>
+        <div v-else class="placeholder">placeholder</div>
+        <button @click='editAnswerModal'>No, sorry, that was a mistake</button>
+        <button @click='editAnswer'>Yeah, get rid of this shit</button>
+      </div>
+      <!-- DELETE ANSWER MODAL -->
       <div id='delAnsModal' v-if='openDelAnsModal'>
         <button @click='deleteAnswerModal' class="float-right" style="margin: -25px -25px 0 0; padding: 0; border: 0; background: transparent; color: #42b983"><i class="far fa-times-circle"></i></button>
         <h2>Are you sure<span>?</span></h2><br>
@@ -169,7 +179,11 @@ export default {
       reply: [],
       replyNotice: [],
       openDelAnsModal: false,
-      delAnsId: ''
+      openEditAnsModal: false,
+      delAnsId: '',
+      editAnsId: '',
+      answerEdit: '',
+      editNotice: ''
     }
   },
   methods: {
@@ -325,6 +339,33 @@ export default {
         .catch(err => {
           console.log(err)
         })
+    },
+    editAnswerModal (words, id) {
+      if (words && id) {
+        this.answerEdit = words
+        this.editAnsId = id
+      }
+      this.optBackdrop = !this.optBackdrop
+      this.openEditAnsModal = !this.openEditAnsModal
+    },
+    editAnswer () {
+      axios({
+        url: `http://localhost:3000/answers/${this.editAnsId}`,
+        method: 'put',
+        headers: {
+          token: localStorage.getItem('token')
+        },
+        data: {
+          words: this.answerEdit
+        }
+      })
+      .then(() => {
+        this.editAnswerModal()
+        this.getDetail(this.$route.params.id)
+      })
+      .catch(err => {
+        this.editNotice = err.response.data.message
+      })
     },
     qUpvote () {
       axios({

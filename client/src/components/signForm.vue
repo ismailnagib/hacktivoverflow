@@ -1,24 +1,18 @@
 <template>
   <div id='signform'>
     <div id='signinit'>
-      <button v-if='signedIn' @click='signout' class='signModalBtn'><strong>Sign Out</strong></button>
-      <button v-else @click='signModal' class='signModalBtn'><strong>Sign In / Sign Up</strong></button>
-      <div>or scroll down</div>
+      <div style="margin: auto">
+        <div class="border-bottom mt-4 pb-3">
+          <span class="g-signin2" data-onsuccess="onSignIn" style="width: 175px"></span>
+        </div>
+        <button v-if='signedIn' @click='signout' class='signModalBtn'><strong>Sign Out</strong></button>
+        <button v-else @click='signModal' class='signModalBtn'><strong>Sign In / Sign Up</strong></button>
+        <div>or scroll down</div>
+      </div>
     </div>
     <div id='signBackdrop' v-if='openSignModal'></div>
     <div id='signModal' v-if='openSignModal'>
       <button class='mt-4' @click='signModal' style="background: transparent; color: white; font-size: 30px; border: none; cursor: pointer; outline: none"><i class="far fa-times-circle"></i></button><br><br>
-      
-      <!-- GOOGLE SIGN IN -->
-      <!-- <div id="gSignInWrapper">
-        <span class="label">Sign in with:</span>
-        <div id="customBtn" ref='customBtn' class="customGPlusSignIn">
-          <span class="icon"></span>
-          <span class="buttonText">Google</span>
-        </div>
-      </div>
-      <div id="name"></div> -->
-      
       <div v-if='isSigningUp'><input class='mx-2' v-model='name' type="text" placeholder="Name" @keyup.enter="onEnter"><br></div>
       <div v-else><input id='phInput' readonly></div>
       <input class='mx-2' v-model='email' type="email" placeholder="Email" @keyup.enter='onEnter'><br>

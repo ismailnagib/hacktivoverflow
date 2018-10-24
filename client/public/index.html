@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="style.css">
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
-    <!-- <script src="https://apis.google.com/js/api:client.js"></script> -->
     <meta name="google-signin-client_id" content="696902617672-sqht03uiqas3da7mackns5b1m7m6n74r.apps.googleusercontent.com">
     <script src="https://apis.google.com/js/platform.js" async defer></script>
     <title>Hackerflow</title>
@@ -22,37 +21,48 @@
     <!-- built files will be auto injected -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script>
+      $('document').ready(() => {
+        if (localStorage.getItem('token')) {
+          $.ajax({
+            url: `http://localhost:3000/users/checklogin`,
+            method: 'post',
+            headers: {
+              token: localStorage.getItem('token')
+            }
+          })
+            .done(() => {
+            $('#g-signin-btn').hide()
+            })
+            .fail(err => {
+              $('#g-signin-btn').show()
+            })
+        }
+      })
+
       function onSignIn(googleUser) {
         let id_token = googleUser.getAuthResponse().id_token
         
         $.ajax({
-          method: "POST",
-          url: ``,
-          data: {
-            googleToken: id_token
+          url: `http://localhost:3000/users/glogin`,
+          headers: {
+            id_token: id_token
           }
         })
           .done(data => {
-            if (data.token) {
-              localStorage.setItem('token', data.token)
-              var refresh = localStorage.getItem('refresh')
-              console.log(refresh)
-              if (refresh === null){
-                  window.location.reload()
-                  localStorage.setItem('refresh', "1")
-              }
-            }
-            else console.log("Sorry, your connection to database is interrupted")
+            localStorage.setItem('token', data.token)
           })
           .fail(err => {
             console.log(err.message)
           })
       }
-      function gsignOut() {
+
+      function gSignOut() {
         let auth2 = gapi.auth2.getAuthInstance()
-          auth2.signOut().then(function () {
-            console.log('User signed out.')
-          })
+        auth2.signOut()
+        .then(() => {})
+        .catch(err => {
+          console.log(err)
+        })
       }
     </script>
   </body>

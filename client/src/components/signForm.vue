@@ -2,10 +2,10 @@
   <div id='signform'>
     <div id='signinit'>
       <div style="margin: auto">
-        <div class="border-bottom mt-4 pb-3">
+        <div id='g-signin-btn' class="border-bottom mt-4 pb-3">
           <span class="g-signin2" data-onsuccess="onSignIn" style="width: 175px"></span>
         </div>
-        <button v-if='signedIn' @click='signout' class='signModalBtn'><strong>Sign Out</strong></button>
+        <button v-if='signedIn' @click='signout' onclick='gSignOut' class='signModalBtn'><strong>Sign Out</strong></button>
         <button v-else @click='signModal' class='signModalBtn'><strong>Sign In / Sign Up</strong></button>
         <div>or scroll down</div>
       </div>

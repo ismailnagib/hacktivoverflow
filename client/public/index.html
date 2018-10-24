@@ -40,20 +40,22 @@
       })
 
       function onSignIn(googleUser) {
-        let id_token = googleUser.getAuthResponse().id_token
-        
-        $.ajax({
-          url: `http://localhost:3000/users/glogin`,
-          headers: {
-            id_token: id_token
-          }
-        })
-          .done(data => {
-            localStorage.setItem('token', data.token)
+        if (!localStorage.getItem('token')) {
+          let id_token = googleUser.getAuthResponse().id_token
+          
+          $.ajax({
+            url: `http://localhost:3000/users/glogin`,
+            headers: {
+              id_token: id_token
+            }
           })
-          .fail(err => {
-            console.log(err.message)
-          })
+            .done(data => {
+              localStorage.setItem('token', data.token)
+            })
+            .fail(err => {
+              console.log(err.message)
+            })
+        }
       }
 
       function gSignOut() {

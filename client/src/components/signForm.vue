@@ -30,7 +30,7 @@
 <script>
 import axios from 'axios'
 import store from '@/store'
-import { mapMutations } from 'vuex';
+import { mapMutations } from 'vuex'
 
 export default {
   name: 'signform',

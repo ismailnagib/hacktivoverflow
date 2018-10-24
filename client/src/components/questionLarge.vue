@@ -1,8 +1,7 @@
 <template>
   <div id='questionlarge'>
     <div v-if='showAll'>
-      <div class="border mb-4" v-for='(question, index) in questions' :key='index' v-if='questions.length > 0'>
-        
+      <div class="border mb-4" v-for='(question, index) in questions' :key='index'>
         <div v-if='question.author._id === authUser'>
           <div class="optBtn float-right">
             <button title="Edit Question" @click='editModal(question._id, question.title, question.content)'><i class="far fa-edit"></i></button>

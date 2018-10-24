@@ -8,6 +8,17 @@
     <div id='signBackdrop' v-if='openSignModal'></div>
     <div id='signModal' v-if='openSignModal'>
       <button class='mt-4' @click='signModal' style="background: transparent; color: white; font-size: 30px; border: none; cursor: pointer; outline: none"><i class="far fa-times-circle"></i></button><br><br>
+      
+      <!-- GOOGLE SIGN IN -->
+      <!-- <div id="gSignInWrapper">
+        <span class="label">Sign in with:</span>
+        <div id="customBtn" ref='customBtn' class="customGPlusSignIn">
+          <span class="icon"></span>
+          <span class="buttonText">Google</span>
+        </div>
+      </div>
+      <div id="name"></div> -->
+      
       <div v-if='isSigningUp'><input class='mx-2' v-model='name' type="text" placeholder="Name" @keyup.enter="onEnter"><br></div>
       <div v-else><input id='phInput' readonly></div>
       <input class='mx-2' v-model='email' type="email" placeholder="Email" @keyup.enter='onEnter'><br>
@@ -142,6 +153,35 @@ export default {
   },
   created () {
     this.checkSignedIn()
+  },
+  mounted () {
+    // var googleUser = {};
+    // var auth2 = ''
+    // var startApp = () => {
+    //   gapi.load('auth2', () => {
+    //     // Retrieve the singleton for the GoogleAuth library and set up the client.
+    //     auth2 = gapi.auth2.init({
+    //       client_id: '696902617672-sqht03uiqas3da7mackns5b1m7m6n74r.apps.googleusercontent.com',
+    //       cookiepolicy: 'single_host_origin',
+    //       // Request scopes in addition to 'profile' and 'email'
+    //       //scope: 'additional_scope'
+    //     });
+    //     // console.log(this.getElementById('customBtn'))
+    //     attachSignin(document.getElementById('customBtn'));
+    //   });
+    // };
+
+    // function attachSignin(element) {
+    //   // console.log(element.id);
+    //   auth2.attachClickHandler(element, {},
+    //     function(googleUser) {
+    //       document.getElementById('name').innerText = "Signed in: " +
+    //         googleUser.getBasicProfile().getName();
+    //     }, function(error) {
+    //       // alert(JSON.stringify(error, undefined, 2));
+    //     });
+    // }
+    // startApp()
   }
 }
 </script>

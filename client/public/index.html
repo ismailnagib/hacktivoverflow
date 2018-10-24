@@ -51,6 +51,7 @@
           })
             .done(data => {
               localStorage.setItem('token', data.token)
+              location.reload()
             })
             .fail(err => {
               console.log(err.message)
@@ -61,7 +62,9 @@
       function gSignOut() {
         let auth2 = gapi.auth2.getAuthInstance()
         auth2.signOut()
-        .then(() => {})
+        .then(() => {
+          location.create()
+        })
         .catch(err => {
           console.log(err)
         })

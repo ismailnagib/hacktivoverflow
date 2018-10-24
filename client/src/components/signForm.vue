@@ -87,6 +87,7 @@ export default {
             this.mutateSignedIn(true)
             this.mutateAuthUser(data.data.userId)
             this.signModal()
+            location.reload()
           })
           .catch(err => {
             this.notice = err.response.data.message
@@ -124,6 +125,7 @@ export default {
       this.signedIn = false
       this.mutateSignedIn(false)
       this.mutateAuthUser(null)
+      location.reload()
     },
     checkSignedIn () {
       axios({

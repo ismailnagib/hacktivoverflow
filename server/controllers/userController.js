@@ -58,9 +58,10 @@ module.exports = {
                         let token = jwt.sign({
                             id: user._id,
                             email: user.email,
-                            name: user.name
+                            name: user.name,
+                            verified: user.isVerified
                         }, process.env.JWT_KEY);
-                        res.status(200).json({token: token, userId: user._id})
+                        res.status(200).json({token: token, userId: user._id, verified: user.isVerified})
                     } else {
                         res.status(500).json({message: 'Incorrect email and/or password'})
                     }
@@ -102,7 +103,8 @@ module.exports = {
                         let token = jwt.sign({
                             id: user._id,
                             email: user.email,
-                            name: user.name
+                            name: user.name,
+                            isVerified: true
                         }, process.env.JWT_KEY)
                         res.status(200).json({token: token})
                     } else {
@@ -110,7 +112,8 @@ module.exports = {
                             email: data.data.email,
                             name: data.data.name,
                             password: 'abcde12345',
-                            gSignIn: true
+                            gSignIn: true,
+                            isVerified: true
                         })
                         .then(newuser => {
                             let token = jwt.sign({

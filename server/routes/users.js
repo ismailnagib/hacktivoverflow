@@ -5,7 +5,7 @@ const isLogin = require('../middlewares/isLogin')
 
 router.get('/glogin', glogin)
 router.post('/login', login)
-router.post('/checklogin', isLogin, (req, res) => {res.status(200).json({userId: req.userId, userEmail: req.userEmail, userName: req.userName})})
+router.post('/checklogin', isLogin, (req, res) => {res.status(200).json({userId: req.userId, userEmail: req.userEmail, userName: req.userName, verified: req.verified})})
 router.post('/register', register)
 
 module.exports = router

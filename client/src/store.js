@@ -7,6 +7,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     signedIn: false,
+    verified: false,
     authUser: null,
     questions: [],
     menuIndex: 0
@@ -14,6 +15,9 @@ export default new Vuex.Store({
   mutations: {
     mutateSignedIn (state, value) {
       state.signedIn = value
+    },
+    mutateVerified (state, value) {
+      state.verified = value
     },
     mutateAuthUser (state, value) {
       state.authUser = value

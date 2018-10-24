@@ -49,7 +49,7 @@ export default {
       keyword: '',
       savedUrl: '',
       isSearching: false,
-      menu: ['All Questions', 'My Questions'],
+      menu: ['All Questions', 'My Questions']
     }
   },
   methods: {
@@ -129,7 +129,7 @@ export default {
     this.getQuestions()
   },
   computed: {
-    ...mapState(['signedIn', 'questions', 'menuIndex']),
+    ...mapState(['signedIn', 'questions', 'menuIndex'])
   }
 }
 </script>

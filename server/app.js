@@ -21,7 +21,7 @@ app.use(express.urlencoded({ extended: false }));
 if (process.env.STATUS === 'test') {
     mongoose.connect(`mongodb://localhost:27017/wonder-hackover-test`, { useNewUrlParser: true });
 } else {
-    mongoose.connect(`mongodb://localhost:27017/wonder-hackover`, { useNewUrlParser: true });
+    mongoose.connect(process.env.ATLAS, { useNewUrlParser: true });
 }
 
 app.use('/questions', questionsRouter)

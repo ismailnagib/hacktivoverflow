@@ -38,16 +38,17 @@ module.exports = {
                         answers: answers
                     })
                     .then(data => {
-
-                        queue.create('email', {  
-                            title: 'Someone answered your question!',
-                            to: question.author.email,
-                            template: `<h2>Hi, ${question.author.name}.</h2>
-                            <p>Someone has answered your question, perhaps you'll want to check it out here: http://localhost:8080/${req.body.questionId}</p>
-                            <p>With love,</p>
-                            <p><strong>The Hackerflow Team</strong></p>`
-                        }).save()
-
+                        if (JSON.stringify(question.author._id) !== JSON.stringify(answer.answerer)) {
+                            queue.create('email', {  
+                                title: 'Someone answered your question!',
+                                to: question.author.email,
+                                template: `<h2>Hi, ${question.author.name}.</h2>
+                                <p>Someone has answered your question, perhaps you'll want to check it out here: http://localhost:8080/${req.body.questionId}</p>
+                                <p>With love,</p>
+                                <p><strong>The Hackerflow Team</strong></p>`
+                            }).save()
+                        }
+                        
                         res.status(201).json({data: answer})
                     })
                     .catch(err => {

@@ -31,6 +31,7 @@ queue.process('email', function (job, done) {
             return console.log(error);
         } else {
             console.log('Message sent: %s', info.messageId);
+            done()
         }
     });
 });

@@ -24,7 +24,7 @@
       $('document').ready(() => {
         if (localStorage.getItem('token')) {
           $.ajax({
-            url: `http://localhost:3000/users/checklogin`,
+            url: `https://hackerflow-server.ismailnagib.xyz/users/checklogin`,
             method: 'post',
             headers: {
               token: localStorage.getItem('token')
@@ -44,7 +44,7 @@
           let id_token = googleUser.getAuthResponse().id_token
           
           $.ajax({
-            url: `http://localhost:3000/users/glogin`,
+            url: `https://hackerflow-server.ismailnagib.xyz/users/glogin`,
             headers: {
               id_token: id_token
             }

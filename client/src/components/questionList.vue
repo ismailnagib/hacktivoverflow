@@ -15,7 +15,7 @@
       <div id="questionLink" >
         <router-link :to='{name: "detail", params: {id: question._id}}' v-for='(question, index) in questions' :key='index'>{{ question.title }}<br></router-link>
       </div>
-      <div v-if='questions.length > 28'><b>( Scroll down for more )</b></div>
+      <div v-if='questions.length > 24'><b>( Scroll down for more )</b></div>
     </div>
     <div id='listBackdrop' v-if='openListBackdrop'></div>
     <!-- ADD MODAL -->

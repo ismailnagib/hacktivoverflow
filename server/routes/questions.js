@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { show, showOne, showMine, add, edit, remove, search, upvote, downvote } = require('../controllers/questionController')
+const { show, showOne, showMine, add, edit, remove, search, upvote, downvote, starToggle } = require('../controllers/questionController')
 const isLogin = require('../middlewares/isLogin')
 
 router.get('/', show)
@@ -12,5 +12,6 @@ router.put('/:id', isLogin, edit)
 router.delete('/:id', isLogin, remove)
 router.patch('/upvote', isLogin, upvote)
 router.patch('/downvote', isLogin, downvote)
+router.patch('/star', isLogin, starToggle)
 
 module.exports = router;

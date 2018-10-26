@@ -5,10 +5,10 @@
     <button id='addBtn' v-if='signedIn' @click='addModal'>+ New Question</button>
     <div id='menu' class="border-bottom mb-4 pb-4">
       <div id='menuLink' class="border-bottom pb-2 text-center">
-        <button v-if='keyword.length === 0 && menuIndex === 1 && signedIn' class="mr-2" @click='menuChange(0)' title="All Questions"><i class="fas fa-caret-left"></i></button>
+        <button v-if='keyword.length === 0 && menuIndex > 0 && signedIn' class="mr-2" @click='menuChange(menuIndex - 1)' title="All Questions"><i class="fas fa-caret-left"></i></button>
         <button v-else-if='keyword.length === 0 && signedIn' disabled class="mr-2"><i class="fas fa-caret-left"></i></button>
         <router-link to='/' v-if='keyword.length === 0'>{{ menu[menuIndex] }}</router-link>
-        <button v-if='keyword.length === 0 && menuIndex === 0 && signedIn' class="ml-2" @click='menuChange(1)' title="My Questions"><i class="fas fa-caret-right"></i></button>
+        <button v-if='keyword.length === 0 && menuIndex < (menu.length - 1) && signedIn' class="ml-2" @click='menuChange(menuIndex + 1)' title="My Questions"><i class="fas fa-caret-right"></i></button>
         <button v-else-if='keyword.length === 0 && signedIn' disabled class="ml-2"><i class="fas fa-caret-right"></i></button>
         <div v-if='keyword.length !== 0'>Search Result</div>
       </div><br>
@@ -49,11 +49,11 @@ export default {
       keyword: '',
       savedUrl: '',
       isSearching: false,
-      menu: ['All Questions', 'My Questions']
+      menu: ['All Questions', 'My Questions', 'Starred Question']
     }
   },
   methods: {
-    ...mapActions(['getQuestions', 'getMyQuestions', 'searchAction']),
+    ...mapActions(['getQuestions', 'getMyQuestions', 'searchAction', 'getStarred']),
     ...mapMutations(['mutateMenuIndex']),
     menuChange (index) {
       this.mutateMenuIndex(index)
@@ -120,8 +120,10 @@ export default {
     menuIndex () {
       if (this.menuIndex === 0) {
         this.getQuestions()
-      } else {
+      } else if (this.menuIndex === 1) {
         this.getMyQuestions()
+      } else {
+        this.getStarred(true)
       }
     }
   },

@@ -30,7 +30,7 @@
 <script>
 import axios from 'axios'
 import store from '@/store'
-import { mapMutations } from 'vuex'
+import { mapMutations, mapActions } from 'vuex'
 
 export default {
   name: 'signform',
@@ -49,6 +49,7 @@ export default {
   },
   methods: {
     ...mapMutations(['mutateSignedIn', 'mutateAuthUser']),
+    ...mapActions(['getStarred']),
     signModal () {
       this.openSignModal = !this.openSignModal
       this.isSigningUp = false
@@ -86,6 +87,7 @@ export default {
             this.signedIn = true
             this.mutateSignedIn(true)
             this.mutateAuthUser(data.data.userId)
+            this.getStarred()
             this.signModal()
             location.reload()
           })
@@ -139,6 +141,7 @@ export default {
           this.signedIn = true
           this.mutateSignedIn(true)
           this.mutateAuthUser(data.data.userId)
+          this.getStarred()
         })
         // eslint-disable-next-line
         .catch(err => {
@@ -149,35 +152,6 @@ export default {
   },
   created () {
     this.checkSignedIn()
-  },
-  mounted () {
-    // var googleUser = {};
-    // var auth2 = ''
-    // var startApp = () => {
-    //   gapi.load('auth2', () => {
-    //     // Retrieve the singleton for the GoogleAuth library and set up the client.
-    //     auth2 = gapi.auth2.init({
-    //       client_id: '696902617672-sqht03uiqas3da7mackns5b1m7m6n74r.apps.googleusercontent.com',
-    //       cookiepolicy: 'single_host_origin',
-    //       // Request scopes in addition to 'profile' and 'email'
-    //       //scope: 'additional_scope'
-    //     });
-    //     // console.log(this.getElementById('customBtn'))
-    //     attachSignin(document.getElementById('customBtn'));
-    //   });
-    // };
-
-    // function attachSignin(element) {
-    //   // console.log(element.id);
-    //   auth2.attachClickHandler(element, {},
-    //     function(googleUser) {
-    //       document.getElementById('name').innerText = "Signed in: " +
-    //         googleUser.getBasicProfile().getName();
-    //     }, function(error) {
-    //       // alert(JSON.stringify(error, undefined, 2));
-    //     });
-    // }
-    // startApp()
   }
 }
 </script>

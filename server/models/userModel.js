@@ -21,7 +21,11 @@ const userSchema = new Schema({
     isVerified: {
         type: Boolean,
         default: false
-    }
+    },
+    starred: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Question'
+    }]
 }, {
   timestamps: true
 });

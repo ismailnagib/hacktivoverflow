@@ -10,7 +10,8 @@ export default new Vuex.Store({
     verified: false,
     authUser: null,
     questions: [],
-    menuIndex: 0
+    menuIndex: 0,
+    starred: []
   },
   mutations: {
     mutateSignedIn (state, value) {
@@ -27,6 +28,9 @@ export default new Vuex.Store({
     },
     mutateMenuIndex (state, value) {
       state.menuIndex = value
+    },
+    mutateStarred (state, value) {
+      state.starred = value
     }
   },
   actions: {
@@ -61,6 +65,23 @@ export default new Vuex.Store({
       })
         .then(data => {
           context.commit('mutateQuestions', data.data.data)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    getStarred (context, shouldDisplay) {
+      axios({
+        url: 'https://hackerflow-server.ismailnagib.xyz/users/starred',
+        headers: {
+          token: localStorage.getItem('token')
+        }
+      })
+        .then(data => {
+          context.commit('mutateStarred', data.data.starred)
+          if (shouldDisplay) {
+            context.commit('mutateQuestions', data.data.detail)
+          }
         })
         .catch(err => {
           console.log(err)

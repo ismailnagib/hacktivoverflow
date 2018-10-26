@@ -1,5 +1,6 @@
 const Question = require('../models/questionModel')
 const Answer = require('../models/answerModel')
+const User = require('../models/userModel')
 
 module.exports = {
     
@@ -265,6 +266,56 @@ module.exports = {
                 })
             } else {
                 res.status(500).json({message: "You can't downvote yourself"})
+            }
+        })
+        .catch(err => {
+            res.status(500).json({message: err})
+        })
+    },
+
+    starToggle: function(req, res) {
+        Question.findById(req.body.id)
+        .then(data => {
+            if (data.author != req.userId) {
+                User.findById(req.userId)
+                .then(user => {
+                    let starred = user.starred
+                    let star = data.star
+                    let i = starred.indexOf(req.body.id)
+                    if (i !== -1) {
+                        starred.splice(i, 1)
+                        star --
+                    } else {
+                        starred.push(req.body.id)
+                        star ++
+                    }
+                    Question.updateOne({
+                        _id: req.body.id
+                    }, {
+                        star: star
+                    })
+                    .then(() => {
+                        User.updateOne({
+                            _id: req.userId
+                        }, {
+                            starred: starred
+                        })
+                        .then(() => {
+                            res.status(200).json({})
+                        })
+                        .catch(err => {
+                            res.status(500).json({message: err})
+                        })
+                    })
+                    .catch(err => {
+                        res.status(500).json({message: err})
+                    })
+                })
+                .catch(err => {
+                    res.status(500).json({message: err})
+                })
+            } else {
+                res.status(500).json({message: "You can't star your own question"})
             }
         })
         .catch(err => {

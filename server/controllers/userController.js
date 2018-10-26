@@ -140,4 +140,18 @@ module.exports = {
             res.status(500).json({message: err})
         })
     },
+
+    getStarred: function (req, res) {
+        User.findById(req.userId)
+        .populate('starred')
+        .then(detail => {
+            User.findById(req.userId)
+            .then(general => {
+                res.status(200).json({starred: general.starred, detail: detail.starred})
+            })
+        })
+        .catch(err => {
+            res.status(500).json({message: err})
+        })
+    }
 }

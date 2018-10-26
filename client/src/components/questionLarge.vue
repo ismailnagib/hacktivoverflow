@@ -46,6 +46,7 @@
               <h5><b>{{ detail.vote }}</b></h5>
               <span v-if='detail.author._id !== authUser && signedIn'><i class="fas fa-chevron-down" @click='qDownvote' :class="{voted: detail.downvote.indexOf(authUser) !== -1}"></i></span>
               <h6 v-else><b>VOTE<span v-if='detail.vote > 1'>S</span></b></h6>
+              <span v-if='detail.author._id !== authUser && signedIn'><br><i class="fas fa-star" @click='starToggle' :class="{voted: starred.indexOf(detail._id) !== -1}"></i></span>
             </div>
           </div>
           <div class="col-10 text-center question-title">
@@ -187,7 +188,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['getQuestions', 'getMyQuestions']),
+    ...mapActions(['getQuestions', 'getMyQuestions', 'getStarred']),
     getDetail (id) {
       axios({
         url: `https://hackerflow-server.ismailnagib.xyz/questions/${id}`
@@ -438,6 +439,29 @@ export default {
         .catch(err => {
           console.log(err)
         })
+    },
+    starToggle () {
+      axios({
+        url: `https://hackerflow-server.ismailnagib.xyz/questions/star`,
+        method: 'patch',
+        headers: {
+          token: localStorage.getItem('token')
+        },
+        data: {
+          id: this.detail._id
+        }
+      })
+        .then(() => {
+          this.getDetail(this.detail._id)
+          if (this.menuIndex === 2) {
+            this.getStarred(true)
+          } else {
+            this.getStarred()
+          }
+        })
+        .catch(err => {
+          console.log(err)
+        })
     }
   },
   watch: {
@@ -456,7 +480,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(['signedIn', 'authUser', 'questions', 'menuIndex'])
+    ...mapState(['signedIn', 'authUser', 'questions', 'menuIndex', 'starred'])
   }
 }
 </script>

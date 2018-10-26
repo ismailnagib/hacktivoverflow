@@ -6,8 +6,6 @@ module.exports = function(req, res, next) {
             next(err.message)
         } else {
             req.userId = decoded.id
-            req.userEmail = decoded.email
-            req.userName = decoded.name
             req.verified = decoded.verified
             next()
         }

@@ -226,20 +226,24 @@ a:hover {
   width: 100%;
 }
 
-.question-vote {
-  cursor: default;
+.question-vote, .question-star {
   display: flex;
-}
-
-.question-vote div {
-  margin: auto;
-}
-
-.question-vote i:hover {
   cursor: pointer;
 }
 
-.question-vote i.voted {
+.question-vote.detail {
+  cursor: default;
+}
+
+.question-vote.detail i:hover {
+  cursor: pointer;
+}
+
+.question-vote div, .question-star div {
+  margin: auto;
+}
+
+.question-vote i.active, .question-star i.active {
   color: #42b983;
 }
 

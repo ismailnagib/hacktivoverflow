@@ -20,7 +20,13 @@
                   <h6><b>VOTE<span v-if='question.vote > 1'>S</span></b></h6>
                 </div>
               </div>
-              <div class="col-10 text-center question-title">
+              <div class="col-2 border-right text-center question-star">
+                <div>
+                  <h5><b>{{ question.star }}</b></h5>
+                  <h6><b><i class="fas fa-star" :class="{active: starred.indexOf(question._id) !== -1}"></i></b></h6>
+                </div>
+              </div>
+              <div class="col-8 text-center question-title">
                 <h5 class="card-title pb-2"><strong>{{ question.title }}</strong></h5>
               </div>
             </div>
@@ -40,13 +46,13 @@
       </div>
       <div class="card-body detail-body">
         <div class="row m-0" :class="{'mt-40': detail.author._id === authUser}">
-          <div class="col-2 border-right text-center question-vote">
+          <div class="col-2 border-right text-center question-vote detail">
             <div>
-              <span v-if='detail.author._id !== authUser && signedIn'><i class="fas fa-chevron-up" @click='qUpvote' :class="{voted: detail.upvote.indexOf(authUser) !== -1}"></i></span>
+              <span v-if='detail.author._id !== authUser && signedIn'><i class="fas fa-chevron-up" @click='qUpvote' :class="{active: detail.upvote.indexOf(authUser) !== -1}"></i></span>
               <h5><b>{{ detail.vote }}</b></h5>
-              <span v-if='detail.author._id !== authUser && signedIn'><i class="fas fa-chevron-down" @click='qDownvote' :class="{voted: detail.downvote.indexOf(authUser) !== -1}"></i></span>
+              <span v-if='detail.author._id !== authUser && signedIn'><i class="fas fa-chevron-down" @click='qDownvote' :class="{active: detail.downvote.indexOf(authUser) !== -1}"></i></span>
               <h6 v-else><b>VOTE<span v-if='detail.vote > 1'>S</span></b></h6>
-              <span v-if='detail.author._id !== authUser && signedIn'><br><i class="fas fa-star" @click='starToggle' :class="{voted: starred.indexOf(detail._id) !== -1}"></i></span>
+              <span v-if='detail.author._id !== authUser && signedIn'><br><i class="fas fa-star" @click='starToggle' :class="{active: starred.indexOf(detail._id) !== -1}"></i></span>
             </div>
           </div>
           <div class="col-10 text-center question-title">
@@ -71,9 +77,9 @@
         <div class="row pb-2 mb-4 border-bottom" v-for='(answer, index) in detail.answers' :key='index'>
           <div class="col-2 border-right text-center question-vote pr-0">
             <div>
-              <span v-if='answer.answerer._id !== authUser && signedIn'><i class="fas fa-chevron-up" @click='aUpvote(answer._id)' :class="{voted: answer.upvote.indexOf(authUser) !== -1}"></i></span>
+              <span v-if='answer.answerer._id !== authUser && signedIn'><i class="fas fa-chevron-up" @click='aUpvote(answer._id)' :class="{active: answer.upvote.indexOf(authUser) !== -1}"></i></span>
               <h5><b>{{ answer.vote }}</b></h5>
-              <span v-if='answer.answerer._id !== authUser && signedIn'><i v-if='answer.answerer._id !== authUser' class="fas fa-chevron-down" @click='aDownvote(answer._id)' :class="{voted: answer.downvote.indexOf(authUser) !== -1}"></i></span>
+              <span v-if='answer.answerer._id !== authUser && signedIn'><i v-if='answer.answerer._id !== authUser' class="fas fa-chevron-down" @click='aDownvote(answer._id)' :class="{active: answer.downvote.indexOf(authUser) !== -1}"></i></span>
               <h6 v-else><b>VOTE<span v-if='answer.vote > 1'>S</span></b></h6>
             </div>
           </div>
